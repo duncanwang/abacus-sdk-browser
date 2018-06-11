@@ -8,7 +8,7 @@ module.exports = function openModal(opts) {
   var modal = document.getElementById(abacusSSOModalId);
   if (!modal) {
     var iframe = document.createElement("iframe");
-    iframe.src = "http://localhost:3000/offerings/modal/login";
+    iframe.src = (opts.baseURL || "http://localhost:3000" ) + "/offerings/modal/login";
     iframe.width = "100%";
     iframe.height = "100%";
     iframe.frameBorder = "0";
