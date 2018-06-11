@@ -15,10 +15,10 @@ module.exports = function openModal(opts) {
 
     var modalContent = document.createElement("div");
     modalContent.style.backgroundColor = "#fefefe";
-    modalContent.style.margin = "15vh auto";
-    modalContent.style.height = "70vh";
+    modalContent.style.margin = "50px auto";
+    modalContent.style.height = "700px";
+    modalContent.style.width = "600px";
     modalContent.style.border = "1px solid #888";
-    modalContent.style.width = "350px";
     modalContent.appendChild(iframe);
 
     modal = document.createElement("div");
