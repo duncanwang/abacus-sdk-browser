@@ -1,0 +1,19 @@
+{
+  "name": "@abacusprotocol/sso",
+  "version": "0.1.1",
+  "description": "Library to integrate Abacus SSO.",
+  "main": "sso.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abacusprotocol/sso.git"
+  },
+  "author": "Ian Macalinao <ian@abacusprotocol.com>",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/abacusprotocol/sso/issues"
+  },
+  "homepage": "https://github.com/abacusprotocol/sso#readme"
+}
