@@ -9,7 +9,9 @@ module.exports = function openModal(opts) {
   if (!modal) {
     var iframe = document.createElement("iframe");
     iframe.src =
-      (opts.baseURL || "http://localhost:3000") + "/offerings/modal/login";
+      (opts.baseURL || "http://localhost:3000") +
+      "/offerings/modal/login" +
+      (opts.offering ? "?offering=" + opts.offering : "");
     iframe.width = "100%";
     iframe.height = "100%";
     iframe.frameBorder = "0";
