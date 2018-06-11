@@ -1,25 +1,64 @@
-// Get the modal
-var modal = document.getElementById("myModal");
+var abacusSSOModalId = "abacusSSO";
+var displaying = false;
+var exists = false;
 
-// Get the button that opens the modal
-var btn = document.getElementById("myBtn");
+module.exports = function openModal(opts) {
+  opts = opts || {};
 
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
+  var modal = document.getElementById(abacusSSOModalId);
+  if (!modal) {
+    var iframe = document.createElement("iframe");
+    iframe.src = "http://localhost:3000/offerings/modal/login";
+    iframe.width = "100%";
+    iframe.height = "100%";
+    iframe.frameBorder = "0";
 
-// When the user clicks on the button, open the modal
-btn.onclick = function() {
-  modal.style.display = "block";
-};
+    var modalContent = document.createElement("div");
+    modalContent.style.backgroundColor = "#fefefe";
+    modalContent.style.margin = "15vh auto";
+    modalContent.style.height = "70vh";
+    modalContent.style.border = "1px solid #888";
+    modalContent.style.width = "350px";
+    modalContent.appendChild(iframe);
 
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  modal.style.display = "none";
-};
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
+    modal = document.createElement("div");
+    modal.id = abacusSSOModalId;
+    modal.style.position = "fixed";
+    modal.style.zIndex = "1";
+    modal.style.left = "0";
+    modal.style.top = "0";
+    modal.style.width = "100%";
+    modal.style.height = "100%";
+    modal.style.overflow = "auto";
+    modal.style.backgroundColor = "rgb(0, 0, 0, 0.4)";
+    modal.appendChild(modalContent);
+    document.body.appendChild(modal);
   }
+  modal.style.display = "block";
+
+  function removeAbacusModal() {
+    if (displaying) {
+      modal.style.display = "none";
+      displaying = false;
+    }
+    if (opts.onClose) {
+      opts.onClose();
+    }
+  }
+
+  if (!exists) {
+    window.addEventListener("click", function(event) {
+      if (event.target != modal && displaying) {
+        console.log("removing.");
+        removeAbacusModal();
+      }
+    });
+  }
+
+  // weird hack for ensuring event listener doesn't fire
+  setTimeout(function() {
+    displaying = true;
+  }, 1);
+  exists = true;
+  return removeAbacusModal;
 };
