@@ -7,37 +7,22 @@ module.exports = function openModal(opts) {
 
   var modal = document.getElementById(abacusSSOModalId);
   if (!modal) {
-    var iframe = document.createElement("iframe");
-    iframe.src =
+    modal = document.createElement("modal");
+    modal.src =
       (opts.baseURL || "http://localhost:3000") +
       "/offerings/modal/login" +
       (opts.offering ? "?offering=" + opts.offering : "");
-    iframe.width = "100%";
-    iframe.height = "100%";
-    iframe.frameBorder = "0";
-
-    var modalContent = document.createElement("div");
-    modalContent.style.backgroundColor = "#fefefe";
-    modalContent.style.margin = "50px auto";
-    modalContent.style.height = "700px";
-    modalContent.style.width = "600px";
-    modalContent.style.border = "1px solid #888";
-    modalContent.appendChild(iframe);
-
-    modal = document.createElement("div");
-    modal.id = abacusSSOModalId;
+    modal.width = "100%";
+    modal.height = "100%";
+    modal.frameBorder = "0";
     modal.style.position = "fixed";
-    modal.style.zIndex = "1";
+    modal.style.zIndex = "1337";
+    modal.id = abacusSSOModalId;
     modal.style.left = "0";
     modal.style.top = "0";
-    modal.style.width = "100%";
-    modal.style.height = "100%";
-    modal.style.overflow = "auto";
-    modal.style.backgroundColor = "rgb(0, 0, 0, 0.4)";
-    modal.appendChild(modalContent);
+    modal.style.overflow = "hidden";
     document.body.appendChild(modal);
   }
-  modal.style.display = "block";
 
   function removeAbacusModal() {
     if (displaying) {
