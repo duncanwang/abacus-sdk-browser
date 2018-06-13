@@ -7,7 +7,7 @@ module.exports = function openModal(opts) {
 
   var modal = document.getElementById(abacusSSOModalId);
   if (!modal) {
-    modal = document.createElement("modal");
+    modal = document.createElement("iframe");
     modal.src =
       (opts.baseURL || "http://localhost:3000") +
       "/modal/login" +
@@ -37,7 +37,6 @@ module.exports = function openModal(opts) {
   if (!exists) {
     window.addEventListener("click", function(event) {
       if (event.target != modal && displaying) {
-        console.log("removing.");
         removeAbacusModal();
       }
     });
