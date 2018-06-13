@@ -10,8 +10,8 @@ module.exports = function openModal(opts) {
     modal = document.createElement("modal");
     modal.src =
       (opts.baseURL || "http://localhost:3000") +
-      "/offerings/modal/login" +
-      (opts.offering ? "?offering=" + opts.offering : "");
+      "/modal/login" +
+      (opts.application ? "?application=" + opts.application : "");
     modal.width = "100%";
     modal.height = "100%";
     modal.frameBorder = "0";
