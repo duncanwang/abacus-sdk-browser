@@ -40,6 +40,11 @@ module.exports = function openModal(opts) {
         removeAbacusModal();
       }
     });
+    window.addEventListener("message", function(event) {
+      if (event.data === "abacus_modal_close") {
+        removeAbacusModal();
+      }
+    });
   }
 
   // weird hack for ensuring event listener doesn't fire
