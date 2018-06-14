@@ -23,6 +23,7 @@ module.exports = function openModal(opts) {
     modal.style.overflow = "hidden";
     document.body.appendChild(modal);
   }
+  modal.style.display = "block";
 
   function removeAbacusModal() {
     if (displaying) {
