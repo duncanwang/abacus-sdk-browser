@@ -1,6 +1,6 @@
 {
   "name": "@abacusprotocol/sso",
-  "version": "0.1.17",
+  "version": "0.1.18",
   "description": "Library to integrate Abacus SSO.",
   "main": "sso.js",
   "scripts": {
