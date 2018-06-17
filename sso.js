@@ -77,6 +77,7 @@ function openModal(modalOpts) {
 }
 
 module.exports = {
+  init: init,
   fetchVerificationStatus: fetchVerificationStatus,
   openModal: openModal
 };
