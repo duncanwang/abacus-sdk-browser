@@ -1,15 +1,35 @@
+const fetch = require("cross-fetch");
+
 var abacusSSOModalId = "abacusSSO";
 var displaying = false;
 var exists = false;
+var opts = {
+  portalURL: "https://portal.abacusprotocol.com",
+  apiURL: "https://backend.abacusprotocol.com"
+};
 
-module.exports = function openModal(opts) {
-  opts = opts || {};
+function init(params) {
+  if (params.portalURL) opts.portalURL = params.portalURL;
+  if (params.apiURL) opts.apiURL = params.apiURL;
+  if (params.application) opts.application = params.application;
+}
+
+function fetchVerificationStatus(address) {
+  return fetch(
+    opts.apiURL + "/identity/verification_status?address=" + address
+  ).then(function(response) {
+    return response.json();
+  });
+}
+
+function openModal(modalOpts) {
+  modalOpts = modalOpts || {};
 
   var modal = document.getElementById(abacusSSOModalId);
   if (!modal) {
     modal = document.createElement("iframe");
     modal.src =
-      (opts.baseURL || "http://localhost:3000") +
+      (opts.portalURL || "http://localhost:3000") +
       "/modal/login" +
       (opts.application ? "?application=" + opts.application : "");
     modal.width = "100%";
@@ -30,8 +50,8 @@ module.exports = function openModal(opts) {
       modal.style.display = "none";
       displaying = false;
     }
-    if (opts.onClose) {
-      opts.onClose();
+    if (modalOpts.onClose) {
+      modalOpts.onClose();
     }
   }
 
@@ -54,4 +74,9 @@ module.exports = function openModal(opts) {
   }, 1);
   exists = true;
   return removeAbacusModal;
+}
+
+module.exports = {
+  fetchVerificationStatus: fetchVerificationStatus,
+  openModal: openModal
 };

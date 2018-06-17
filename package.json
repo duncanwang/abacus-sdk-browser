@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/abacusprotocol/sso/issues"
   },
-  "homepage": "https://github.com/abacusprotocol/sso#readme"
+  "homepage": "https://github.com/abacusprotocol/sso#readme",
+  "dependencies": {
+    "cross-fetch": "^2.2.1"
+  }
 }
