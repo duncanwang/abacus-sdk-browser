@@ -13,30 +13,43 @@ yarn add @abacusprotocol/sso
 First, init Abacus SSO:
 
 ```
-const sso = require('@abacusprotocol/sso')
-sso.init({
-    application: 'your-application-id'
+import Abacus from '@abacusprotocol/sso';
+
+const abacus = new Abacus({
+    appId: 'your-application-id'
 })
 ```
 
-### Modal
+### Authorization 
 
 To open a modal, use the following code:
 
 ```
-<button onClick={() => sso.openModal(options)}>Authenticate with Abacus</button>
+<button onClick={() => abacus.authorizeWithModal()}>
+    Authenticate with Abacus
+</button>
 ```
 
-This takes in one parameter, `options`, which can take in the following properties:
+`abacus.authorizeWithModal` takes in one parameter, `options`, which is described as follows:
 
-- `onClose()` -- function to call when the modal is closed
+```
+    abacus.authorizeWithModal({
+        onError: ({message, description}) => null,
+        onOpen: () => null,
+        onClose: (authToken) => null
+    })
+``` 
+
+- `onError` has a message which can be one of: `connection_failure` `open_failure` `completion_failure`
+- `onOpen` what to do once the modal successfully opens
+- `onClose` passes a JWT auth token. We provide a helper method `readJWTToken` to parse contents from this token
 
 ### Verification Status
 
 To fetch verification status, use the following code:
 
 ```
-sso.fetchVerificationStatus('0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B');
+abacus.fetchVerificationStatus('0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B');
 ```
 
 This will return a `Promise` of a JSON object with the following shape:
