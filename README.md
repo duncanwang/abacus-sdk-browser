@@ -21,7 +21,7 @@ const abacus = new Abacus({
 ```
 
 ## Authorization 
-### authenticate a user
+### Authenticate a user
 
 This will open a modal to authenticate a user:
 
