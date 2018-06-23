@@ -47,6 +47,10 @@ This will open a modal to authenticate a user:
 
 in the case of an error, `authorizeWithModal` will throw an error with the names: `AddressAuthenticationError`, `ModalError`, `ConnectionError`
 
+- `AddressAuthenticationError` no eth address found 
+- `ModalError` there was an issue using or opening the modal
+- `ConnectionError` cannot connect to abacus 
+
 ### Read login token
 
 to read from the user token:
@@ -129,6 +133,10 @@ This will return a `Promise` of a JSON object mapping field keys to values:
 
 if an error occurs it will be of the shape:  `FetchError`, `AuthenticationError`, `ConnectionError`
 
+- `FetchError` there is a error with the query
+- `AuthenticationError` the user is not authenticated
+- `ConnectionError` cannot connect to abacus 
+
 ### Set
 
 To set fields for a user: 
@@ -160,3 +168,7 @@ This will return a `Promise` of a JSON object mapping field keys to values signa
 ```
 
 if an error occurs it will be of the shape:  `SetError`, `AuthenticationError`, `ConnectionError`
+
+- `SetError` there is a error with the query
+- `AuthenticationError` the user is not authenticated
+- `ConnectionError` cannot connect to abacus 
