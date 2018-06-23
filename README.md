@@ -20,7 +20,8 @@ const abacus = new Abacus({
 })
 ```
 
-### Authorization 
+## Authorization 
+### Open the modal
 
 To open a modal, use the following code:
 
@@ -43,6 +44,8 @@ To open a modal, use the following code:
 - `onError` has a message which can be one of: `connection_failure` `open_failure` `completion_failure`
 - `onOpen` what to do once the modal successfully opens
 - `onClose` passes a JWT auth token. We provide a helper method `readJWTToken` to parse contents from this token
+
+
 
 ### Verification Status
 
