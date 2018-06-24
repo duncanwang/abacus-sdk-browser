@@ -3,12 +3,12 @@ import Abacus from '@abacusprotocol/client-sdk';
 
 class App extends Component {
   componentDidMount() {
-    console.log(Abacus);
     this.abacus = new Abacus({
-      portalURL: "https://identity.abacusprotocol.com",
+      portalURL: "http://localhost:3000",
       apiURL: "https://backend.abacusprotocol.com",
       applicationId: "e8ea696f-20ed-43b3-84ac-68d372959e6a"
     });
+    console.log(this.abacus)
   }
   render() {
     return (

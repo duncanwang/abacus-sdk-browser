@@ -1,5 +1,9 @@
 const fetch = require("cross-fetch");
 
+const ERRORS = {
+  AUTH: 'AuthenticationError'
+}
+
 function AbacusError(message, name) {
   var instance = new Error('Abacus Err:' + message);
   instance.name = name || instance.name;
@@ -16,6 +20,7 @@ function Abacus(params) {
   this.MODAL_ID = "abacusSDK";
   this._displaying = false;
   this._exists = false;
+  this._authUser = window.localStorage.abacusUserToken;
 }
 
 /* AUTHENTICATION METHODS */
@@ -61,13 +66,17 @@ Abacus.prototype.authorizeWithModal = function (options) {
       }
     });
     window.addEventListener("message", function (event) {
-      // TODO: deprecated this
+      // TODO: deprecated this part
       if (event.data === "abacus_modal_close") {
         this.closeModal(OPTS.onClose);
       }
       if (event.data.name !== "abacus") return;
       if (event.data.payload === 'modal_close') {
         this.closeModal(OPTS.onClose());
+      }
+      if (event.data.payload.authToken) {
+        this._authUser = event.data.payload.authToken;
+        window.localStorage.abacusUserToken = this._authUser;
       }
     });
   }
@@ -80,7 +89,8 @@ Abacus.prototype.authorizeWithModal = function (options) {
 }
 
 Abacus.prototype.readAuthToken = function () {
-
+  if (!this._authUser) throw AbacusError('no user logged in!', ERRORS.AUTH)
+  return JSON.parse(atob(token.split(".")[1]));
 }
 Abacus.prototype.deauthorize = function () {}
 
