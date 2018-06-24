@@ -7,7 +7,7 @@ class App extends Component {
     this.abacus = new Abacus({
       portalURL: "https://identity.abacusprotocol.com",
       apiURL: "https://backend.abacusprotocol.com",
-      application: "e8ea696f-20ed-43b3-84ac-68d372959e6a"
+      applicationId: "e8ea696f-20ed-43b3-84ac-68d372959e6a"
     });
   }
   render() {

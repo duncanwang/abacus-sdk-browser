@@ -77,7 +77,6 @@ Abacus.prototype.authorizeWithModal = function (options) {
     this._displaying = true;
   }, 1);
   this._exists = true;
-  return removeAbacusModal;
 }
 
 Abacus.prototype.readAuthToken = function () {
