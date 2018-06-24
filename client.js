@@ -1,12 +1,11 @@
 const fetch = require("cross-fetch");
 
-
 function Abacus(params) {
   this._opts = {
     portalURL: "https://portal.abacusprotocol.com",
     apiURL: "https://backend.abacusprotocol.com"
   };
-  this.abacusSDKModalId = "abacusSDK";
+  this.MODAL_ID = "abacusSDK";
   this._displaying = false;
   this._exists = false;
   if (params.portalURL) this._opts.portalURL = params.portalURL;
@@ -19,7 +18,7 @@ function Abacus(params) {
 Abacus.prototype.authorizeWithModal = function (modalOpts) {
   modalOpts = modalOpts || {};
 
-  var modal = document.getElementById(abacusSDKModalId);
+  var modal = document.getElementById(this.MODAL_ID);
   if (!modal) {
     modal = document.createElement("iframe");
     modal.src =
@@ -31,7 +30,7 @@ Abacus.prototype.authorizeWithModal = function (modalOpts) {
     modal.frameBorder = "0";
     modal.style.position = "fixed";
     modal.style.zIndex = "1337";
-    modal.id = abacusSDKModalId;
+    modal.id = this.MODAL_ID;
     modal.style.left = "0";
     modal.style.top = "0";
     modal.style.overflow = "hidden";
@@ -85,6 +84,4 @@ Abacus.prototype.fetchVerificationStatus = function (address) {
   });
 }
 
-module.exports = {
-  Abacus: Abacus
-};
+module.exports = Abacus;

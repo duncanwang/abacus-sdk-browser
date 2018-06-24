@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import abacus from '../../client';
+import Abacus from '@abacusprotocol/client-sdk';
 
 class App extends Component {
   componentDidMount() {
-    console.log(abacus);
-    abacus.init({
+    console.log(Abacus);
+    this.abacus = new Abacus({
       portalURL: "https://identity.abacusprotocol.com",
       apiURL: "https://backend.abacusprotocol.com",
       application: "e8ea696f-20ed-43b3-84ac-68d372959e6a"
@@ -16,7 +16,7 @@ class App extends Component {
         <button
           type="primary"
           onClick={() => {
-            abacus.openModal({
+            this.abacus.authorizeWithModal({
               onClose() {
                 console.log("test123");
               }
@@ -28,7 +28,7 @@ class App extends Component {
         <button
           type="primary"
           onClick={async () => {
-            const result = await abacus.fetchVerificationStatus(
+            const result = await this.abacus.fetchVerificationStatus(
               // @ts-ignore
               window.web3.eth.defaultAccount
             );
