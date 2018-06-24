@@ -1,6 +1,6 @@
-const fetch = require("cross-fetch");
+var fetch = require("cross-fetch");
 
-const ERRORS = {
+var ERRORS = {
   AUTH: 'AuthenticationError'
 }
 
@@ -89,14 +89,30 @@ Abacus.prototype.authorizeWithModal = function (options) {
 }
 
 Abacus.prototype.readAuthToken = function () {
-  if (!this._authUser) throw AbacusError('no user logged in!', ERRORS.AUTH)
+  this.requireAuth();
   return JSON.parse(atob(token.split(".")[1]));
 }
-Abacus.prototype.deauthorize = function () {}
+Abacus.prototype.deauthorize = function () {
+  window.localStorage.abacusUserToken = null;   
+}
+
+Abacus.prototype.requireAuth = function () {
+  if (!this._authUser) throw AbacusError('no user logged in!', ERRORS.AUTH)
+  return this._authUser;
+}
 
 /* USER METHODS */
 
-Abacus.prototype.fetchVerificationStatus = function (address) {
+Abacus.prototype.fetchUserFields = function() {
+  var user = this.requireAuth();
+  return new Promise();
+}
+Abacus.prototype.setUserFields = function() {
+  var user = this.requireAuth();
+  return new Promise();
+}
+Abacus.prototype.fetchVerificationStatus = function () {
+  var user = this.requireAuth();
   return fetch(
     this._opts.apiURL + "/identity/verification_status?address=" + address
   ).then(function (response) {
