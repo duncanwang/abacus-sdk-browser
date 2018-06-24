@@ -39,7 +39,7 @@ Abacus.prototype.authorizeWithModal = function (options) {
     modal.src =
       (this._opts.portalURL || "http://localhost:3000") +
       "/modal/login" +
-      (this._opts.application ? "?application=" + this._opts.application : "");
+      (this._opts.applicationId ? "?application=" + this._opts.applicationId : "");
     modal.width = "100%";
     modal.height = "100%";
     modal.frameBorder = "0";
