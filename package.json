@@ -1,6 +1,6 @@
 {
   "name": "@abacusprotocol/client-sdk",
-  "version": "0.1.30",
+  "version": "0.1.31",
   "description": "Library to integrate Abacus SDK.",
   "main": "client.js",
   "scripts": {
