@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@abacusprotocol/sso": "^0.1.19",
+    "@abacusprotocol/client-sdk": "^0.1.23",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-scripts": "1.1.4"

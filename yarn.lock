@@ -2,6 +2,12 @@
 # yarn lockfile v1
 
 
+"@abacusprotocol/client-sdk@^0.1.23":
+  version "0.1.23"
+  resolved "https://registry.yarnpkg.com/@abacusprotocol/client-sdk/-/client-sdk-0.1.23.tgz#2e534a7c46719033f0adce40571d94ca85caf1de"
+  dependencies:
+    cross-fetch "^2.2.1"
+
 cross-fetch@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-2.2.1.tgz#96c859104d75defc967fb5db62474e75426b02b0"
