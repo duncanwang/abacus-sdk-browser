@@ -1,6 +1,6 @@
 const fetch = require("cross-fetch");
 
-var abacusSSOModalId = "abacusSSO";
+var abacusSDKModalId = "abacusSDK";
 var displaying = false;
 var exists = false;
 var opts = {
@@ -25,7 +25,7 @@ function fetchVerificationStatus(address) {
 function openModal(modalOpts) {
   modalOpts = modalOpts || {};
 
-  var modal = document.getElementById(abacusSSOModalId);
+  var modal = document.getElementById(abacusSDKModalId);
   if (!modal) {
     modal = document.createElement("iframe");
     modal.src =
@@ -37,7 +37,7 @@ function openModal(modalOpts) {
     modal.frameBorder = "0";
     modal.style.position = "fixed";
     modal.style.zIndex = "1337";
-    modal.id = abacusSSOModalId;
+    modal.id = abacusSDKModalId;
     modal.style.left = "0";
     modal.style.top = "0";
     modal.style.overflow = "hidden";

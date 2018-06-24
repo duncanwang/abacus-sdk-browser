@@ -1,19 +1,19 @@
-# sso
+# sdk
 
-Javascript library for interacting with Abacus SSO.
+Javascript library for interacting with Abacus SDK.
 
 ## Installing
 
 ```
-yarn add @abacusprotocol/sso
+yarn add @abacusprotocol/sdk
 ```
 
 ## Usage
 
-First, init Abacus SSO:
+First, init Abacus SDK:
 
 ```
-import Abacus from '@abacusprotocol/sso';
+import Abacus from '@abacusprotocol/sdk';
 
 const abacus = new Abacus({
     appId: 'your-application-id'

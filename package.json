@@ -1,21 +1,21 @@
 {
-  "name": "@abacusprotocol/sso",
-  "version": "0.1.19",
-  "description": "Library to integrate Abacus SSO.",
-  "main": "sso.js",
+  "name": "@abacusprotocol/sdk",
+  "version": "0.1.20",
+  "description": "Library to integrate Abacus SDK.",
+  "main": "sdk.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/abacusprotocol/sso.git"
+    "url": "git+https://github.com/abacusprotocol/sdk.git"
   },
-  "author": "Ian Macalinao <ian@abacusprotocol.com>",
+  "author": "Abacus Protocol <team@abacusprotocol.com>",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/abacusprotocol/sso/issues"
+    "url": "https://github.com/abacusprotocol/sdk/issues"
   },
-  "homepage": "https://github.com/abacusprotocol/sso#readme",
+  "homepage": "https://github.com/abacusprotocol/sdk#readme",
   "dependencies": {
     "cross-fetch": "^2.2.1"
   }
