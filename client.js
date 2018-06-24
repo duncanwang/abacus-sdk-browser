@@ -1,33 +1,30 @@
 const fetch = require("cross-fetch");
 
-function AbacusError(name, message) {
-  var instance = new Error(message);
-  instance.name = name;
+function AbacusError(message, name) {
+  var instance = new Error('Abacus Err:' + message);
+  instance.name = name || instance.name;
   return instance;
 }
 
 function Abacus(params) {
+  if (!params.applicationId) throw new AbacusError('Please provide an application ID');
   this._opts = {
-    portalURL: "https://portal.abacusprotocol.com",
-    apiURL: "https://backend.abacusprotocol.com"
+    portalURL: params.portalURL || "https://portal.abacusprotocol.com",
+    apiURL: params.apiURL || "https://backend.abacusprotocol.com",
+    applicationId: params.applicationId
   };
   this.MODAL_ID = "abacusSDK";
   this._displaying = false;
   this._exists = false;
-  if (params.portalURL) this._opts.portalURL = params.portalURL;
-  if (params.apiURL) this._opts.apiURL = params.apiURL;
-  if (params.application) this._opts.application = params.application;
 }
 
 /* AUTHENTICATION METHODS */
 
 Abacus.prototype.authorizeWithModal = function (modalOpts) {
   var OPTS = {
-    onOpen: modalOpts.onOpen || () => null,
-    onClose: modalOpts.onClose || () => null,
+    onOpen: modalOpts.onOpen || function () {},
+    onClose: modalOpts.onClose || function () {}
   };
-  
-  if ()
 
   var modal = document.getElementById(this.MODAL_ID);
   if (!modal) {
