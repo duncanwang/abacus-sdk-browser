@@ -1,19 +1,19 @@
-# sdk
+# Abacus Client SDK 
 
-Javascript library for interacting with Abacus SDK.
+Javascript library for interacting with Abacus Client SDK.
 
 ## Installing
 
 ```
-yarn add @abacusprotocol/sdk
+yarn add @abacusprotocol/client-sdk
 ```
 
 ## Usage
 
-First, init Abacus SDK:
+First, init Abacus Client SDK:
 
 ```
-import Abacus from '@abacusprotocol/sdk';
+import Abacus from '@abacusprotocol/client-sdk';
 
 const abacus = new Abacus({
     appId: 'your-application-id'
