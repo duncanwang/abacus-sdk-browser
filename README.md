@@ -35,13 +35,11 @@ This will open a modal to authenticate a user:
 
 ```
     abacus.authorizeWithModal({
-        ethAddress: "0xDFfbe..." //optional
         onOpen: () => null,
         onClose: () => null
     })
 ``` 
 
-- `ethAddress` optionally supply us the eth address to link to. If not supplied we will read the default address from metamask
 - `onOpen` what to do once the modal successfully opens
 - `onClose` at this point a user should be authenticated, we provide a helper method `readAuthToken` to read his/her credentials.
 
