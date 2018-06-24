@@ -1,5 +1,11 @@
 const fetch = require("cross-fetch");
 
+function AbacusError(name, message) {
+  var instance = new Error(message);
+  instance.name = name;
+  return instance;
+}
+
 function Abacus(params) {
   this._opts = {
     portalURL: "https://portal.abacusprotocol.com",
@@ -16,7 +22,12 @@ function Abacus(params) {
 /* AUTHENTICATION METHODS */
 
 Abacus.prototype.authorizeWithModal = function (modalOpts) {
-  modalOpts = modalOpts || {};
+  var OPTS = {
+    onOpen: modalOpts.onOpen || () => null,
+    onClose: modalOpts.onClose || () => null,
+  };
+  
+  if ()
 
   var modal = document.getElementById(this.MODAL_ID);
   if (!modal) {
