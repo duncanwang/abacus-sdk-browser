@@ -16,7 +16,7 @@ First, init Abacus Client SDK:
 import Abacus from '@abacusprotocol/client-sdk';
 
 const abacus = new Abacus({
-    appId: 'your-application-id'
+    applicationId: 'your-application-id'
 })
 ```
 

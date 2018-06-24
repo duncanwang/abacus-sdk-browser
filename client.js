@@ -20,10 +20,17 @@ function Abacus(params) {
 
 /* AUTHENTICATION METHODS */
 
-Abacus.prototype.authorizeWithModal = function (modalOpts) {
-  var OPTS = {
-    onOpen: modalOpts.onOpen || function () {},
-    onClose: modalOpts.onClose || function () {}
+Abacus.prototype.closeModal = function (onClose) {
+  if (!this._displaying) return;
+  modal.style.display = "none";
+  this._displaying = false;
+  onClose();
+}
+
+Abacus.prototype.authorizeWithModal = function (options) {
+  OPTS = {
+    onOpen: typeof options.onOpen === 'function' ? options.onOpen : function () {},
+    onClose: typeof options.onClose === 'function' ? options.onClose : function () {},
   };
 
   var modal = document.getElementById(this.MODAL_ID);
@@ -44,27 +51,18 @@ Abacus.prototype.authorizeWithModal = function (modalOpts) {
     modal.style.overflow = "hidden";
     document.body.appendChild(modal);
   }
+  OPTS.onOpen();
   modal.style.display = "block";
-
-  function removeAbacusModal() {
-    if (this._displaying) {
-      modal.style.display = "none";
-      this._displaying = false;
-    }
-    if (modalOpts.onClose) {
-      modalOpts.onClose();
-    }
-  }
 
   if (!this._exists) {
     window.addEventListener("click", function (event) {
       if (event.target != modal && this._displaying) {
-        removeAbacusModal();
+        this.closeModal(OPTS.onClose);
       }
     });
     window.addEventListener("message", function (event) {
       if (event.data === "abacus_modal_close") {
-        removeAbacusModal();
+        this.closeModal(OPTS.onClose);
       }
     });
   }
