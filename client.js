@@ -61,8 +61,13 @@ Abacus.prototype.authorizeWithModal = function (options) {
       }
     });
     window.addEventListener("message", function (event) {
+      // TODO: deprecated this
       if (event.data === "abacus_modal_close") {
         this.closeModal(OPTS.onClose);
+      }
+      if (event.data.name !== "abacus") return;
+      if (event.data.payload === 'modal_close') {
+        this.closeModal(OPTS.onClose());
       }
     });
   }
