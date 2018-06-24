@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import abacus from '@abacusprotocol/client-sdk';
+import abacus from '../../client';
 
 class App extends Component {
   componentDidMount() {
