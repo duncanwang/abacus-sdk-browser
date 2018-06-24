@@ -78,7 +78,7 @@ Abacus.prototype.deauthorize = function () {}
 
 Abacus.prototype.fetchVerificationStatus = function (address) {
   return fetch(
-    this.opts.apiURL + "/identity/verification_status?address=" + address
+    this._opts.apiURL + "/identity/verification_status?address=" + address
   ).then(function (response) {
     return response.json();
   });
