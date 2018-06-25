@@ -1,0 +1,45 @@
+
+.App {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  width: 100%;
+  margin: auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  grid-column: 1 / -1;
+  padding: 10px;
+  border-bottom: 2px solid #eee;
+}
+.header .login {
+}
+
+.header .title {
+}
+
+.gallery {
+  grid-column: 1 / 9;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+  padding: 20px;
+}
+
+.gallery .item {
+  padding-bottom: 10px;
+}
+.gallery .item .img {
+  background: #eee;
+  height: 150px;
+  position: relative;
+  border: 2px solid #999;
+}
+.gallery .item .img > div {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+}
