@@ -22,7 +22,7 @@ class App extends React.Component {
         <Settings />
         <Inspect
           inspected={this.state.inspected}
-          onexit={() => this.setState({ inspected: null })}
+          onExit={() => this.setState({ inspected: null })}
         />
       </div>
     );
