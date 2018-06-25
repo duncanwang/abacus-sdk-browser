@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import Gallery from "./Gallery";
 import Settings from "./Settings";
+import Inspect from "./Inspect";
 
 class App extends React.Component {
   render() {
@@ -13,6 +14,7 @@ class App extends React.Component {
         </div>
         <Gallery />
         <Settings />
+        <Inspect />
       </div>
     );
   }

@@ -65,3 +65,28 @@
 .settings .item button {
 
 }
+
+.inspect {
+  position: fixed;
+  padding: 10px;
+  bottom: 0;
+  right: 0;
+  margin: 20px;
+  background: #fff;
+  border: 2px solid #eee;
+  width: 500px;
+}
+.inspect h1 {
+  margin-bottom: 10px;
+}
+
+.inspect .exit {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.inspect .img {
+  background: #eee;
+  width: 100%;
+  height: 200px;
+}
