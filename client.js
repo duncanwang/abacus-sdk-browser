@@ -140,10 +140,10 @@ Abacus.prototype.getUserAnnotations = function () {
   });
 }
 
-Abacus.prototype.setTokenAnnotations = function (tokenAddress, tokenId, data) {
+Abacus.prototype.setTokenAnnotations = function ({applicationId, address, tokenId, data}) {
   var user = this.readAuthToken();
   return fetch(
-    this._opts.apiURL + "/api/v1/applications/" + user.applicationId + "/tokens/" + tokenAddress + "/" + tokenId + "/annotations",
+    this._opts.apiURL + "/api/v1/applications/" + (this._opts.applicationId || applicationId) + "/tokens/" + address + "/" + tokenId + "/annotations",
     {
       method: "POST",
       headers: {
@@ -156,10 +156,10 @@ Abacus.prototype.setTokenAnnotations = function (tokenAddress, tokenId, data) {
   });
 }
 
-Abacus.prototype.getTokenAnnotations = function (tokenAddress, tokenId) {
+Abacus.prototype.getTokenAnnotations = function ({applicationId, address, tokenId}) {
   var user = this.readAuthToken();
   return fetch(
-    this._opts.apiURL + "/api/v1/applications/" + user.applicationId + "/tokens/" + tokenAddress + "/" + tokenId + "/annotations",
+    this._opts.apiURL + "/api/v1/applications/" + (this._opts.applicationId || applicationId) + "/tokens/" + address + "/" + tokenId + "/annotations",
   ).then(function (response) {
     return response.json();
   });
