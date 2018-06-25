@@ -38,8 +38,7 @@ const FAKE_DATA = [
     bed: 2,
     bath: 2,
     price: 10000,
-    address: "2101 Bryant St. apt 104",
-    csz: "San Francisco, CA 94110"
+    location: "Japan"
   },
   {
     owner: "Tommy Hillfinger",
@@ -47,8 +46,7 @@ const FAKE_DATA = [
     bed: 2,
     bath: 3,
     price: 12000,
-    address: "2123 Zillow St. apt 114",
-    csz: "San Francisco, CA 94110"
+    location: "United States"
   },
   {
     owner: "Vitalik Buterin",
@@ -56,7 +54,6 @@ const FAKE_DATA = [
     bed: 2,
     bath: 1,
     price: 15000,
-    address: "2203 Coolie St. apt 123",
-    csz: "San Francisco, CA 94110"
+    location: "Japan"
   }
 ];

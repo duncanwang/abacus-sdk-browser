@@ -7,13 +7,15 @@ class Inspect extends React.Component {
     if (!inspected) return null;
     return (
       <div className="inspect">
-        <button className="exit">x</button>
-        <h1>{inspected.owners}'s House</h1>
+        <button className="exit" onClick={onExit}>
+          x
+        </button>
+        <h1>{inspected.owner}'s House</h1>
         <div className="img">
           <img src={inspected.photo} />
         </div>
         <div className="details">
-          <div>
+          <div className="meta">
             <p>
               price: <b>${inspected.price}</b>
             </p>
@@ -22,8 +24,9 @@ class Inspect extends React.Component {
             </p>
           </div>
           <p className="address">
-            {inspected.address} <br />{inspected.csz}
+            location: <b>{inspected.location}</b>
           </p>
+          <button className="purchase">Purchase</button>
         </div>
       </div>
     );
