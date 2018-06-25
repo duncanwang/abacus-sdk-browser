@@ -15,7 +15,8 @@ class App extends React.Component {
     // how do I create an application ID?
     this.abacus = new Abacus({
       portalURL: "http://localhost:3000",
-      applicationId: APPID
+      applicationId: APPID,
+      requireKYC: false
     });
     if (this.state.reset === true) {
       generateHouses();

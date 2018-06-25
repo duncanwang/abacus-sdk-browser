@@ -16,7 +16,7 @@ function Abacus(params) {
     portalURL: params.portalURL || "https://identity.abacusprotocol.com",
     apiURL: params.apiURL || "https://backend.abacusprotocol.com",
     applicationId: params.applicationId,
-    require_KYC: !!params.require_KYC || false
+    requireKYC: !!params.requireKYC || false
   };
   this.MODAL_ID = "abacusSDK";
   this._displaying = false;
@@ -44,9 +44,9 @@ Abacus.prototype.authorizeWithModal = function (options) {
     modal = document.createElement("iframe");
     modal.src =
       (this._opts.portalURL || "http://localhost:3000") +
-      "/modal/login" +
-      (this._opts.applicationId ? "?application=" + this._opts.applicationId : "") +
-      (this._opts.require_KYC ? '&requireKYC=true' : '');
+      "/modal/login?" +
+      (this._opts.applicationId ? "application=" + this._opts.applicationId + "&" : "") +
+      (this._opts.requireKYC ? 'requireKYC=true&' : '');
     modal.width = "100%";
     modal.height = "100%";
     modal.frameBorder = "0";
