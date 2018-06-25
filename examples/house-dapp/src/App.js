@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import Gallery from "./Gallery";
+import Settings from "./Settings";
 
 class App extends React.Component {
   render() {
@@ -11,6 +12,7 @@ class App extends React.Component {
           <button className="login">Log in</button>
         </div>
         <Gallery />
+        <Settings />
       </div>
     );
   }

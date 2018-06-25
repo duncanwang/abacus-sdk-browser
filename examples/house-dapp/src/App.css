@@ -21,7 +21,7 @@
 }
 
 .gallery {
-  grid-column: 1 / 9;
+  grid-column: 1 / 10;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 20px;
@@ -29,13 +29,14 @@
 }
 
 .gallery .item {
-  padding-bottom: 10px;
+}
+.gallery .item h1 {
+  padding: 10px 0;
 }
 .gallery .item .img {
   background: #eee;
   height: 150px;
   position: relative;
-  border: 4px solid #999;
 }
 .gallery .item .img > div {
   position: absolute;
@@ -43,4 +44,21 @@
   right: 0;
   padding: 10px;
   font-weight: bold;
+}
+
+.settings {
+  display: flex;
+  grid-column: span 3;  
+  flex-direction: column;
+}
+.setting .item {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+.settings .item .label {
+  
+}
+.settings .item button {
+
 }
