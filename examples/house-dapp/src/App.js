@@ -3,19 +3,29 @@ import "./App.css";
 import Gallery from "./Gallery";
 import Settings from "./Settings";
 import Inspect from "./Inspect";
-import abacus from "@abacusprotocol/client-sdk";
+import Abacus from "@abacusprotocol/client-sdk";
 
 class App extends React.Component {
   state = {
     inspected: null
   };
+  componentDidMount() {
+    // how do I create an application ID?
+    this.abacus = new Abacus({
+      applicationId: "e8ea696f-20ed-43b3-84ac-68d372959e6a"
+    });
+  }
   render() {
-    console.log(abacus);
     return (
       <div className="App">
         <div className="header">
           <h1 className="title">House Marketplace DApp</h1>
-          <button className="login">Log in</button>
+          <button
+            className="login"
+            onClick={() => this.abacus.authorizeWithModal()}
+          >
+            Log in
+          </button>
         </div>
         <Gallery
           data={FAKE_DATA}
