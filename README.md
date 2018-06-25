@@ -1,22 +1,26 @@
-# Abacus Client SDK 
-
-Javascript library for interacting with Abacus Client SDK.
+# JavaScript SDK
 
 ## Installing
 
+The JavaScript SDK can be installed via yarn or npm.
+
 ```
 yarn add @abacusprotocol/client-sdk
+
+// OR
+
+npm install @abacusprotocol/client-sdk
 ```
 
 ## Usage
 
-First, init Abacus Client SDK:
+Create an instance of Abacus with your Application ID. If you don't have an Application ID, contact us at team@abacusprotocol.com to get one.
 
-```
-import Abacus from '@abacusprotocol/client-sdk';
+```javascript
+import Abacus from '@abacusprotocol/sdk';
 
 const abacus = new Abacus({
-    applicationId: 'your-application-id'
+    appId: 'your-application-id'
 })
 ```
 
@@ -25,7 +29,7 @@ const abacus = new Abacus({
 
 This will open a modal to authenticate a user:
 
-```
+```javascript
 <button onClick={() => abacus.authorizeWithModal({ ...options })}>
     Authenticate with Abacus
 </button>
@@ -33,13 +37,15 @@ This will open a modal to authenticate a user:
 
 `abacus.authorizeWithModal` takes in `options`, which is described as follows:
 
-```
+```javascript
     abacus.authorizeWithModal({
+        ethAddress: "0xDFfbe..." //optional
         onOpen: () => null,
         onClose: () => null
     })
 ``` 
 
+- `ethAddress` optionally supply us the eth address to link to. If not supplied we will read the default address from metamask
 - `onOpen` what to do once the modal successfully opens
 - `onClose` at this point a user should be authenticated, we provide a helper method `readAuthToken` to read his/her credentials.
 
@@ -53,13 +59,13 @@ in the case of an error, `authorizeWithModal` will throw an error with the names
 
 to read from the user token:
 
-```
+```javascript
 abacus.readAuthToken();
 ```
 
 which will return an object as such:
 
-```
+```json
     {
         expires: 1529783081229, // an integer representing the time in UTC
         eth_address: "0xDFfbe..." // the eth address linked.
@@ -70,7 +76,7 @@ which will return an object as such:
 
 to log out a user:
 
-```
+```javascript
 abacus.deauthorize();
 ```
 
@@ -78,7 +84,7 @@ abacus.deauthorize();
 
 To fetch the KYC verification status of the authenticated user, use the following code:
 
-```
+```javascript
 async () => {
     let res;
     try {
@@ -91,7 +97,7 @@ async () => {
 
 This will return a `Promise` of a JSON object with the following shape:
 
-```
+```json
 {
     // whether or the documents are pending verification
     "isPending": false,
@@ -108,7 +114,7 @@ This will return a `Promise` of a JSON object with the following shape:
 
 To fetch fields from a user: 
 
-```
+```javascript
 async () => {
     const fields = ['name','email'];
     let res;
@@ -122,7 +128,7 @@ async () => {
 
 This will return a `Promise` of a JSON object mapping field keys to values:
 
-```
+```json
 {
     "email": "joe@shmo.com",
     "name": "Joe Shmoe"
@@ -139,7 +145,7 @@ if an error occurs it will be of the shape:  `FetchError`, `AuthenticationError`
 
 To set fields for a user: 
 
-```
+```javascript
 async () => {
     const onChainFields = {
         is_cool: true
@@ -158,7 +164,7 @@ async () => {
 
 This will return a `Promise` of a JSON object mapping field keys to values signaling a successful transaction:
 
-```
+```json
 {
     "isCool": true,
     "name": "Joe Shmoe"
