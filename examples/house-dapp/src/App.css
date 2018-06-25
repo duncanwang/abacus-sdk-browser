@@ -98,8 +98,7 @@
   margin: 20px;
   background: #fff;
   width: 500px;
-  padding: 0 20px;
-  padding-bottom: 20px;
+  padding: 20px;
   box-shadow: 0 10px 20px rgba(0,0,0,0.3);
 }
 .inspect h1 {
@@ -110,6 +109,7 @@
   position: absolute;
   right: 0;
   top: 0;
+  margin: 20px;
 }
 .inspect .img img {
   width: 100%;

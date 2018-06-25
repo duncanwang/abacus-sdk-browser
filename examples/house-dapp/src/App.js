@@ -3,18 +3,23 @@ import "./App.css";
 import Gallery from "./Gallery";
 import Settings from "./Settings";
 import Inspect from "./Inspect";
+import { APPID, generateHouses } from "./helpers";
 import Abacus from "@abacusprotocol/client-sdk";
 
 class App extends React.Component {
   state = {
-    inspected: null
+    inspected: null,
+    reset: false
   };
   componentDidMount() {
     // how do I create an application ID?
     this.abacus = new Abacus({
       portalURL: "http://localhost:3000",
-      applicationId: "e8ea696f-20ed-43b3-84ac-68d372959e6a"
+      applicationId: APPID
     });
+    if (this.state.reset === true) {
+      generateHouses();
+    }
   }
   render() {
     return (
@@ -47,7 +52,7 @@ export default App;
 const FAKE_DATA = [
   {
     owner: "Jerry Nguyen",
-    photo: "https://photos.zillowstatic.com/p_f/IS6uic30zqgwrw0000000000.jpg",
+    photo: "",
     bed: 2,
     bath: 2,
     price: 10000,

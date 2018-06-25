@@ -15,7 +15,8 @@ function Abacus(params) {
   this._opts = {
     portalURL: params.portalURL || "https://identity.abacusprotocol.com",
     apiURL: params.apiURL || "https://backend.abacusprotocol.com",
-    applicationId: params.applicationId
+    applicationId: params.applicationId,
+    require_KYC: !!params.require_KYC || false
   };
   this.MODAL_ID = "abacusSDK";
   this._displaying = false;
@@ -25,17 +26,17 @@ function Abacus(params) {
 
 /* AUTHENTICATION METHODS */
 
-Abacus.prototype.closeModal = function (onClose) {
-  if (!this._displaying) return;
+var closeModal = function (displaying, modal, onClose) {
+  if (!_displaying) return;
   modal.style.display = "none";
-  this._displaying = false;
+  _displaying = false;
   onClose();
 }
 
 Abacus.prototype.authorizeWithModal = function (options) {
-  OPTS = {
-    onOpen: typeof options.onOpen === 'function' ? options.onOpen : function () {},
-    onClose: typeof options.onClose === 'function' ? options.onClose : function () {},
+  var OPTS = {
+    onOpen: options && typeof options.onOpen === 'function' ? options.onOpen : function () {},
+    onClose: options && typeof options.onClose === 'function' ? options.onClose : function () {},
   };
 
   var modal = document.getElementById(this.MODAL_ID);
@@ -44,7 +45,8 @@ Abacus.prototype.authorizeWithModal = function (options) {
     modal.src =
       (this._opts.portalURL || "http://localhost:3000") +
       "/modal/login" +
-      (this._opts.applicationId ? "?application=" + this._opts.applicationId : "");
+      (this._opts.applicationId ? "?application=" + this._opts.applicationId : "") +
+      (this._opts.require_KYC ? '&requireKYC=true' : '');
     modal.width = "100%";
     modal.height = "100%";
     modal.frameBorder = "0";
@@ -62,17 +64,17 @@ Abacus.prototype.authorizeWithModal = function (options) {
   if (!this._exists) {
     window.addEventListener("click", function (event) {
       if (event.target != modal && this._displaying) {
-        this.closeModal(OPTS.onClose);
+        closeModal(this._displaying, modal, OPTS.onClose);
       }
     });
     window.addEventListener("message", function (event) {
       // TODO: deprecated this part
       if (event.data === "abacus_modal_close") {
-        this.closeModal(OPTS.onClose);
+        closeModal(this._displaying, modal, OPTS.onClose);
       }
       if (event.data.name !== "abacus") return;
       if (event.data.payload === 'modal_close') {
-        this.closeModal(OPTS.onClose());
+        closeModal(this._displaying, modal, OPTS.onClose);
       }
       if (event.data.payload.authToken) {
         this._authUser = event.data.payload.authToken;
@@ -93,7 +95,7 @@ Abacus.prototype.readAuthToken = function () {
   return JSON.parse(atob(token.split(".")[1]));
 }
 Abacus.prototype.deauthorize = function () {
-  window.localStorage.abacusUserToken = null;   
+  window.localStorage.abacusUserToken = null;
 }
 
 Abacus.prototype.requireAuth = function () {
@@ -103,11 +105,11 @@ Abacus.prototype.requireAuth = function () {
 
 /* USER METHODS */
 
-Abacus.prototype.fetchUserFields = function() {
+Abacus.prototype.fetchUserFields = function () {
   var user = this.requireAuth();
   return new Promise();
 }
-Abacus.prototype.setUserFields = function() {
+Abacus.prototype.setUserFields = function () {
   var user = this.requireAuth();
   return new Promise();
 }
