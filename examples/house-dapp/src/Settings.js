@@ -5,6 +5,12 @@ import { randomName } from "./helpers";
 
 class Settings extends React.Component {
   render() {
+    if (!this.props.data)
+      return (
+        <div className="settings">
+          <h1>Please log in to see user settings!</h1>
+        </div>
+      );
     return (
       <div className="settings">
         <h1>User Settings</h1>

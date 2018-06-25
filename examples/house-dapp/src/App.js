@@ -17,7 +17,8 @@ class App extends React.Component {
     inspected: null,
     reset: false,
     houseData: [],
-    user: null
+    user: null,
+    userData: null
   };
   async componentDidMount() {
     // how do I create an application ID?
@@ -36,6 +37,9 @@ class App extends React.Component {
         ...x.private
       }))
     });
+  }
+  componentDidUpdate() {
+    
   }
   render() {
     console.log(this.state.user);
@@ -60,7 +64,7 @@ class App extends React.Component {
           data={this.state.houseData}
           onClick={x => this.setState({ inspected: x })}
         />
-        <Settings />
+        <Settings data={this.userData} />
         <Inspect
           inspected={this.state.inspected}
           onExit={() => this.setState({ inspected: null })}
