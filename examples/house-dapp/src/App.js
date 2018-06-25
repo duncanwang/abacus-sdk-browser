@@ -28,12 +28,12 @@ class App extends React.Component {
       requireKYC: false
     });
     if (this.state.reset === true) {
-      generateHouses();
+      generateHouses(this.abacus);
     }
-    const houseData = await getAllHouses();
+    const houseData = await getAllHouses(this.abacus);
     this.setState({
       houseData: houseData.map(x => ({
-        ...x.ethereum.commitments,
+        ...((x && x.ethereum && x.ethereum.commitments) || {}),
         ...x.private
       }))
     });
@@ -41,9 +41,6 @@ class App extends React.Component {
   componentDidUpdate() {}
   render() {
     console.log(this.state.user);
-    if (this.abacus) {
-      console.log(this.abacus.getUserAnnotations());
-    }
     return (
       <div className="App">
         <div className="header">

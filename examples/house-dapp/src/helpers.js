@@ -20,50 +20,43 @@ export const NAMES = [
   "Bob Frapples"
 ];
 
-export const getAllHouses = async () => {
+export const getAllHouses = async abacus => {
   return await Promise.all(
     [...Array(30)].map(async (x, i) => {
-      const res = await fetch(
-        `${BURL}/api/v1/applications/${APPID}/tokens/${HOUSECONTRACT}/${i +
-          1}/annotations`
-      );
-      return res.json();
+      return abacus.getTokenAnnotations({
+        address: HOUSECONTRACT,
+        tokenId: i + 1
+      });
     })
   );
 };
 
 export const randomName = () => {
   return NAMES[Math.floor(Math.random() * (NAMES.length - 1))];
-}
+};
 
-export const generateHouses = () => {
+export const generateHouses = abacus => {
   [...Array(30)].map((x, i) =>
-    fetch(
-      `${BURL}/api/v1/applications/${APPID}/tokens/${HOUSECONTRACT}/${i +
-        1}/annotations`,
-      {
-        method: "POST",
-        headers: {
-          "content-type": "application/json"
-        },
-        body: JSON.stringify({
-          ethereum: {
-            commitments: {
-              photo:
-                HOUSE_IMAGES[
-                  Math.floor(Math.random() * (HOUSE_IMAGES.length - 1))
-                ],
-              location: Math.round(Math.random()) ? "Japan" : "United States",
-              bed: Math.floor(Math.random() * 3).toString(),
-              bath: Math.floor(Math.random() * 3).toString()
-            }
-          },
-          private: {
-            name: randomName(),
-            price: Math.floor(Math.random() * 500 * 1000).toString()
+    abacus.setTokenAnnotations({
+      address: HOUSECONTRACT,
+      tokenId: i + 1,
+      data: {
+        ethereum: {
+          commitments: {
+            photo:
+              HOUSE_IMAGES[
+                Math.floor(Math.random() * (HOUSE_IMAGES.length - 1))
+              ],
+            location: Math.round(Math.random()) ? "Japan" : "United States",
+            bed: Math.floor(Math.random() * 3).toString(),
+            bath: Math.floor(Math.random() * 3).toString()
           }
-        })
+        },
+        private: {
+          name: randomName(),
+          price: Math.floor(Math.random() * 500 * 1000).toString()
+        }
       }
-    )
+    })
   );
 };
