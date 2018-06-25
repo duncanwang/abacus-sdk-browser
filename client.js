@@ -13,7 +13,7 @@ function AbacusError(message, name) {
 function Abacus(params) {
   if (!params.applicationId) throw new AbacusError('Please provide an application ID');
   this._opts = {
-    portalURL: params.portalURL || "https://portal.abacusprotocol.com",
+    portalURL: params.portalURL || "https://identity.abacusprotocol.com",
     apiURL: params.apiURL || "https://backend.abacusprotocol.com",
     applicationId: params.applicationId
   };
