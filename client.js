@@ -91,8 +91,8 @@ Abacus.prototype.authorizeWithModal = function (options) {
 }
 
 Abacus.prototype.readAuthToken = function () {
-  this.requireAuth();
-  return JSON.parse(atob(token.split(".")[1]));
+  var user = this.requireAuth();
+  return JSON.parse(atob(user.split(".")[1]));
 }
 Abacus.prototype.deauthorize = function () {
   window.localStorage.abacusUserToken = null;
@@ -100,19 +100,11 @@ Abacus.prototype.deauthorize = function () {
 
 Abacus.prototype.requireAuth = function () {
   if (!this._authUser) throw AbacusError('no user logged in!', ERRORS.AUTH)
-  return this._authUser;
+  return this.readAuthToken(this._authUser);
 }
 
 /* USER METHODS */
 
-Abacus.prototype.fetchUserFields = function () {
-  var user = this.requireAuth();
-  return new Promise();
-}
-Abacus.prototype.setUserFields = function () {
-  var user = this.requireAuth();
-  return new Promise();
-}
 Abacus.prototype.fetchVerificationStatus = function () {
   var user = this.requireAuth();
   return fetch(
@@ -124,39 +116,51 @@ Abacus.prototype.fetchVerificationStatus = function () {
 
 /* ANNOTATION METHODS */
 
-Abacus.prototype.setUserAnnotations = function (applicationId, userId) {
+Abacus.prototype.setUserAnnotations = function (data) {
   var user = this.requireAuth();
   return fetch(
-    this._opts.apiURL + "/applications/" + applicationId + "/users/" + userId + "/annotations",
-    { method: 'POST' }
+    this._opts.apiURL + "/applications/" + user.applicationId + "/users/" + user.userId + "/annotations",
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify(data)
+    }
   ).then(function (response) {
     return response.json();
   });
 }
 
-Abacus.prototype.getUserAnnotations = function (applicationId, userId) {
+Abacus.prototype.getUserAnnotations = function () {
   var user = this.requireAuth();
   return fetch(
-    this._opts.apiURL + "/applications/" + applicationId + "/users/" + userId + "/annotations",
+    this._opts.apiURL + "/applications/" + user.applicationId + "/users/" + user.userId + "/annotations",
   ).then(function (response) {
     return response.json();
   });
 }
 
-Abacus.prototype.setTokenAnnotations = function (applicationId, tokenAddress, tokenId) {
+Abacus.prototype.setTokenAnnotations = function (tokenAddress, tokenId, data) {
   var user = this.requireAuth();
   return fetch(
-    this._opts.apiURL + "/applications/" + applicationId + "/tokens/" + tokenAddress + "/" + tokenId + "/annotations",
-    { method: 'POST' }
+    this._opts.apiURL + "/applications/" + user.applicationId + "/tokens/" + tokenAddress + "/" + tokenId + "/annotations",
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify(data)
+    }
   ).then(function (response) {
     return response.json();
   });
 }
 
-Abacus.prototype.getTokenAnnotations = function (applicationId, tokenAddress, tokenId) {
+Abacus.prototype.getTokenAnnotations = function (tokenAddress, tokenId) {
   var user = this.requireAuth();
   return fetch(
-    this._opts.apiURL + "/applications/" + applicationId + "/tokens/" + tokenAddress + "/" + tokenId + "/annotations",
+    this._opts.apiURL + "/applications/" + user.applicationId + "/tokens/" + tokenAddress + "/" + tokenId + "/annotations",
   ).then(function (response) {
     return response.json();
   });
