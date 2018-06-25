@@ -3,15 +3,23 @@ import "./App.css";
 import Gallery from "./Gallery";
 import Settings from "./Settings";
 import Inspect from "./Inspect";
-import { APPID, generateHouses } from "./helpers";
+import {
+  APPID,
+  BURL,
+  HOUSECONTRACT,
+  generateHouses,
+  getAllHouses
+} from "./helpers";
 import Abacus from "@abacusprotocol/client-sdk";
 
 class App extends React.Component {
   state = {
     inspected: null,
-    reset: false
+    reset: false,
+    houseData: [],
+    user: null
   };
-  componentDidMount() {
+  async componentDidMount() {
     // how do I create an application ID?
     this.abacus = new Abacus({
       portalURL: "http://localhost:3000",
@@ -21,21 +29,35 @@ class App extends React.Component {
     if (this.state.reset === true) {
       generateHouses();
     }
+    const houseData = await getAllHouses();
+    this.setState({
+      houseData: houseData.map(x => ({
+        ...x.ethereum.commitments,
+        ...x.private
+      }))
+    });
   }
   render() {
+    console.log(this.state.user);
     return (
       <div className="App">
         <div className="header">
           <h1 className="title">House Marketplace DApp</h1>
           <button
             className="login"
-            onClick={() => this.abacus.authorizeWithModal()}
+            onClick={() =>
+              this.abacus.authorizeWithModal({
+                onClose: () => {
+                  this.setState({ user: this.abacus.readAuthToken() });
+                }
+              })
+            }
           >
             Log in
           </button>
         </div>
         <Gallery
-          data={FAKE_DATA}
+          data={this.state.houseData}
           onClick={x => this.setState({ inspected: x })}
         />
         <Settings />

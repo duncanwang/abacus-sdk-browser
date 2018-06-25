@@ -6,8 +6,7 @@ class Gallery extends React.Component {
     const { data, onClick } = this.props;
     return (
       <div className="gallery">
-        {[...Array(10)].map((x, i) => {
-          const info = data[i % 3];
+        {data.map((info, i) => {
           return (
             <div className="item" key={i} onClick={() => onClick(info)}>
               <div className="img">

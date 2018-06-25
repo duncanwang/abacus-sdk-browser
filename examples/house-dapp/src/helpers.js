@@ -20,6 +20,22 @@ export const NAMES = [
   "Bob Frapples"
 ];
 
+export const getAllHouses = async () => {
+  return await Promise.all(
+    [...Array(30)].map(async (x, i) => {
+      const res = await fetch(
+        `${BURL}/api/v1/applications/${APPID}/tokens/${HOUSECONTRACT}/${i +
+          1}/annotations`
+      );
+      return res.json();
+    })
+  );
+};
+
+export const randomName = () => {
+  return NAMES[Math.floor(Math.random() * (NAMES.length - 1))];
+}
+
 export const generateHouses = () => {
   [...Array(30)].map((x, i) =>
     fetch(
@@ -43,7 +59,7 @@ export const generateHouses = () => {
             }
           },
           private: {
-            name: NAMES[Math.floor(Math.random() * (NAMES.length - 1))],
+            name: randomName(),
             price: Math.floor(Math.random() * 500 * 1000).toString()
           }
         })

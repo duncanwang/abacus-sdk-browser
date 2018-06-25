@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import md5 from "js-md5";
+import { randomName } from "./helpers";
 
 class Settings extends React.Component {
   render() {
@@ -12,7 +13,7 @@ class Settings extends React.Component {
             className="profile_picture"
             src={`https://www.gravatar.com/avatar/${md5("")}?d=identicon&s=400`}
           />
-          <h1>John Doe</h1>
+          <h1>{randomName()}</h1>
         </div>
         <div className="item">
           <span className="label">

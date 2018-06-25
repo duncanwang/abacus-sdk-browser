@@ -10,17 +10,17 @@ class Inspect extends React.Component {
         <button className="exit" onClick={onExit}>
           x
         </button>
-        <h1>{inspected.owner}'s House</h1>
+        <h1>{inspected.name}'s House</h1>
         <div className="img">
           <img src={inspected.photo} />
         </div>
         <div className="details">
           <div className="meta">
             <p>
-              price: <b>${inspected.price}</b>
+              <b>{inspected.bed} bed</b> - <b>{inspected.bath} bath</b>
             </p>
             <p>
-              <b>{inspected.bed} bed</b> - <b>{inspected.bath} bath</b>
+              <b>${inspected.price}</b>
             </p>
           </div>
           <p className="address">
