@@ -9,7 +9,7 @@ class Gallery extends React.Component {
           <div className="item" key={i}>
             <div className="img">
               <img src="" />
-              <span>$1000</span>
+              <div>$1000</div>
             </div>
             <h1>Test House</h1>
           </div>
