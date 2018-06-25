@@ -5,6 +5,7 @@
   "dependencies": {
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-prettier": "^2.6.1",
+    "openzeppelin-solidity": "^1.10.0",
     "prettier": "^1.13.5",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
