@@ -3,12 +3,14 @@ import "./App.css";
 import Gallery from "./Gallery";
 import Settings from "./Settings";
 import Inspect from "./Inspect";
+import abacus from "@abacusprotocol/client-sdk";
 
 class App extends React.Component {
   state = {
     inspected: null
   };
   render() {
+    console.log(abacus);
     return (
       <div className="App">
         <div className="header">
