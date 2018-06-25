@@ -12,6 +12,7 @@ class App extends React.Component {
   componentDidMount() {
     // how do I create an application ID?
     this.abacus = new Abacus({
+      portalURL: "http://localhost:3000",
       applicationId: "e8ea696f-20ed-43b3-84ac-68d372959e6a"
     });
   }
