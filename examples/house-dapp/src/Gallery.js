@@ -8,8 +8,11 @@ class Gallery extends React.Component {
         {[...Array(10)].map((x, i) => (
           <div className="item" key={i}>
             <div className="img">
-              <img src="" />
-              <div>$1000</div>
+              <img src="https://photos.zillowstatic.com/p_f/IS6uic30zqgwrw0000000000.jpg" />
+              <div>
+                <span>$1,000</span>
+                <span>2 beds - 2 bath</span>
+              </div>
             </div>
             <h1>Test House</h1>
           </div>

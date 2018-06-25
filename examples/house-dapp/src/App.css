@@ -33,10 +33,14 @@
 .gallery .item h1 {
   padding: 10px 0;
 }
+.gallery .item .img img {
+  width: 100%;
+}
 .gallery .item .img {
   background: #eee;
   height: 150px;
   position: relative;
+  overflow: hidden;
 }
 .gallery .item .img > div {
   position: absolute;
@@ -44,6 +48,13 @@
   right: 0;
   padding: 10px;
   font-weight: bold;
+}
+.gallery .item .img span {
+  display: block;
+  text-align: right;
+  margin-bottom: 5px;
+  color: #FFF;
+  text-shadow: 0 0 5px #000;
 }
 
 .settings {
@@ -68,16 +79,15 @@
 
 .inspect {
   position: fixed;
-  padding: 10px;
   bottom: 0;
   right: 0;
   margin: 20px;
   background: #fff;
-  border: 2px solid #eee;
   width: 500px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
 }
 .inspect h1 {
-  margin-bottom: 10px;
+  padding: 10px;
 }
 
 .inspect .exit {
@@ -85,8 +95,28 @@
   right: 0;
   top: 0;
 }
+.inspect .img img {
+  width: 100%;
+}
+.inspect p {
+  margin: 0;
+  padding: 0 20px;
+  float: left;
+}
+.inspect .details {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+.inspect .address {
+  padding: 10px;
+  background: #eee;
+  margin: 20px;
+  width: 400px;
+}
 .inspect .img {
   background: #eee;
   width: 100%;
   height: 200px;
+  overflow: hidden;
 }
