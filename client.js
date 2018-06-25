@@ -120,4 +120,47 @@ Abacus.prototype.fetchVerificationStatus = function () {
   });
 }
 
+/* ANNOTATION METHODS */
+
+Abacus.prototype.setUserAnnotations = function (applicationId, userId) {
+  var user = this.requireAuth();
+  return fetch(
+    this._opts.apiURL + "/applications/" + applicationId + "/users/" + userId + "/annotations",
+    { method: 'POST' }
+  ).then(function (response) {
+    return response.json();
+  });
+}
+
+Abacus.prototype.getUserAnnotations = function (applicationId, userId) {
+  var user = this.requireAuth();
+  return fetch(
+    this._opts.apiURL + "/applications/" + applicationId + "/users/" + userId + "/annotations",
+  ).then(function (response) {
+    return response.json();
+  });
+}
+
+Abacus.prototype.setTokenAnnotations = function (applicationId, tokenAddress, tokenId) {
+  var user = this.requireAuth();
+  return fetch(
+    this._opts.apiURL + "/applications/" + applicationId + "/tokens/" + tokenAddress + "/" + tokenId + "/annotations",
+    { method: 'POST' }
+  ).then(function (response) {
+    return response.json();
+  });
+}
+
+Abacus.prototype.getTokenAnnotations = function (applicationId, tokenAddress, tokenId) {
+  var user = this.requireAuth();
+  return fetch(
+    this._opts.apiURL + "/applications/" + applicationId + "/tokens/" + tokenAddress + "/" + tokenId + "/annotations",
+  ).then(function (response) {
+    return response.json();
+  });
+}
+
+/* Fetch NFT Annotations */
+
+
 module.exports = Abacus;
