@@ -38,11 +38,12 @@ class App extends React.Component {
       }))
     });
   }
-  componentDidUpdate() {
-    
-  }
+  componentDidUpdate() {}
   render() {
     console.log(this.state.user);
+    if (this.abacus) {
+      console.log(this.abacus.getUserAnnotations());
+    }
     return (
       <div className="App">
         <div className="header">

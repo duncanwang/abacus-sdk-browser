@@ -90,23 +90,22 @@ Abacus.prototype.authorizeWithModal = function (options) {
   this._exists = true;
 }
 
+Abacus.prototype.parseToken = function (token) {
+  return JSON.parse(atob(token.split(".")[1]));
+}
+
 Abacus.prototype.readAuthToken = function () {
-  var user = this.requireAuth();
-  return JSON.parse(atob(user.split(".")[1]));
+  if (!this._authUser) throw AbacusError('no user logged in!', ERRORS.AUTH)
+  return this.parseToken(this._authUser);
 }
 Abacus.prototype.deauthorize = function () {
   window.localStorage.abacusUserToken = null;
 }
 
-Abacus.prototype.requireAuth = function () {
-  if (!this._authUser) throw AbacusError('no user logged in!', ERRORS.AUTH)
-  return this.readAuthToken(this._authUser);
-}
-
 /* USER METHODS */
 
 Abacus.prototype.fetchVerificationStatus = function () {
-  var user = this.requireAuth();
+  var user = this.readAuthToken();
   return fetch(
     this._opts.apiURL + "/identity/verification_status?address=" + address
   ).then(function (response) {
@@ -117,9 +116,9 @@ Abacus.prototype.fetchVerificationStatus = function () {
 /* ANNOTATION METHODS */
 
 Abacus.prototype.setUserAnnotations = function (data) {
-  var user = this.requireAuth();
+  var user = this.readAuthToken();
   return fetch(
-    this._opts.apiURL + "/applications/" + user.applicationId + "/users/" + user.userId + "/annotations",
+    this._opts.apiURL + "/api/v1/applications/" + user.applicationId + "/users/" + user.userId + "/annotations",
     {
       method: "POST",
       headers: {
@@ -133,18 +132,18 @@ Abacus.prototype.setUserAnnotations = function (data) {
 }
 
 Abacus.prototype.getUserAnnotations = function () {
-  var user = this.requireAuth();
+  var user = this.readAuthToken();
   return fetch(
-    this._opts.apiURL + "/applications/" + user.applicationId + "/users/" + user.userId + "/annotations",
+    this._opts.apiURL + "/api/v1/applications/" + user.applicationId + "/users/" + user.userId + "/annotations",
   ).then(function (response) {
     return response.json();
   });
 }
 
 Abacus.prototype.setTokenAnnotations = function (tokenAddress, tokenId, data) {
-  var user = this.requireAuth();
+  var user = this.readAuthToken();
   return fetch(
-    this._opts.apiURL + "/applications/" + user.applicationId + "/tokens/" + tokenAddress + "/" + tokenId + "/annotations",
+    this._opts.apiURL + "/api/v1/applications/" + user.applicationId + "/tokens/" + tokenAddress + "/" + tokenId + "/annotations",
     {
       method: "POST",
       headers: {
@@ -158,9 +157,9 @@ Abacus.prototype.setTokenAnnotations = function (tokenAddress, tokenId, data) {
 }
 
 Abacus.prototype.getTokenAnnotations = function (tokenAddress, tokenId) {
-  var user = this.requireAuth();
+  var user = this.readAuthToken();
   return fetch(
-    this._opts.apiURL + "/applications/" + user.applicationId + "/tokens/" + tokenAddress + "/" + tokenId + "/annotations",
+    this._opts.apiURL + "/api/v1/applications/" + user.applicationId + "/tokens/" + tokenAddress + "/" + tokenId + "/annotations",
   ).then(function (response) {
     return response.json();
   });
