@@ -113,9 +113,20 @@ Abacus.prototype.deauthorize = function() {
 
 /* USER METHODS */
 
-Abacus.prototype.fetchVerificationStatus = function() {
+Abacus.prototype.fetchVerifications = function() {
+  var user = this.readAuthToken();
   return fetch(
-    this._opts.apiURL + "/identity/verification_status?address=" + address
+    this._opts.apiURL +
+      "/api/v1/applications/" +
+      user.applicationId +
+      "/users/" +
+      user.userId +
+      "/verifications",
+    {
+      headers: {
+        Authorization: "bearer " + this._authUser
+      }
+    }
   ).then(function(response) {
     return response.json();
   });
