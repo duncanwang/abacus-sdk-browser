@@ -66,18 +66,30 @@ class App extends React.Component {
       <div className="App">
         <div className="header">
           <h1 className="title">House Marketplace DApp</h1>
-          <button
-            className="login"
-            onClick={() =>
-              this.abacus.authorizeWithModal({
-                onClose: () => {
-                  this.setState({ user: this.abacus.readAuthToken() });
-                }
-              })
-            }
-          >
-            Log in
-          </button>
+          {!this.state.userData && (
+            <button
+              className="login"
+              onClick={() =>
+                this.abacus.authorizeWithModal({
+                  onClose: () => {
+                    this.setState({ user: this.abacus.readAuthToken() });
+                  }
+                })
+              }
+            >
+              Log in
+            </button>
+          )}
+          {this.state.userData && (
+            <a
+              onClick={() => {
+                this.abacus.deauthorize();
+                this.setState({ user: null, userData: null });
+              }}
+            >
+              Log out
+            </a>
+          )}
         </div>
         <Gallery
           data={this.state.houseData}
