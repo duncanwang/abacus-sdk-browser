@@ -1,10 +1,10 @@
 {
   "name": "@abacusprotocol/client-sdk",
-  "version": "0.1.40",
+  "version": "0.1.41",
   "description": "Library to integrate Abacus SDK.",
   "main": "client.js",
   "scripts": {
-    "prepublish": "rollup client.js --format umd --name \"Abacus\" --file ./dist/abacus.js ",
+    "prepublish": "rollup client.js --format iife --name \"Abacus\" --file ./dist/abacus.js ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
