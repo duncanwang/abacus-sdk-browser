@@ -207,6 +207,4 @@ Abacus.prototype.getTokenAnnotations = function({ address, tokenId }) {
   });
 };
 
-/* Fetch NFT Annotations */
-
-module.exports = Abacus;
+export default Abacus;
