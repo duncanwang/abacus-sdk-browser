@@ -5,7 +5,6 @@ import Settings from "./Settings";
 import Inspect from "./Inspect";
 import {
   APPID,
-  BURL,
   HOUSECONTRACT,
   generateHouses,
   randomName,
@@ -24,7 +23,7 @@ class App extends React.Component {
   async componentDidMount() {
     // how do I create an application ID?
     this.abacus = new Abacus({
-      portalURL: "http://localhost:3000",
+      portalURL: "http://identity.abacusprotocol.com",
       applicationId: APPID,
       requireKYC: false
     });

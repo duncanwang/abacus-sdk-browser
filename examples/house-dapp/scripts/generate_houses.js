@@ -22,7 +22,7 @@ const main = async () => {
   const metadataURI = genMetadataURI(applicationId, ht.address);
 
   const houses = await Promise.all(
-    [...Array(100).keys()].map(async _ => {
+    [...Array(5).keys()].map(async _ => {
       const res = await ht.mintTo(randomAddress());
       const tokenId = res.logs[0].args._tokenId;
       const uri = metadataURI(tokenId);

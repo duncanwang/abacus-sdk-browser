@@ -14,7 +14,7 @@ function Abacus(params) {
   if (!params.applicationId) throw new AbacusError('Please provide an application ID');
   this._opts = {
     portalURL: params.portalURL || "https://identity.abacusprotocol.com",
-    apiURL: params.apiURL || "https://backend.abacusprotocol.com",
+    apiURL: params.apiURL || "https://api.abacusprotocol.com",
     applicationId: params.applicationId,
     requireKYC: !!params.requireKYC || false
   };

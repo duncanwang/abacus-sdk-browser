@@ -5,7 +5,7 @@ class App extends Component {
   componentDidMount() {
     this.abacus = new Abacus({
       portalURL: "http://localhost:3000",
-      apiURL: "https://backend.abacusprotocol.com",
+      apiURL: "https://api.abacusprotocol.com",
       applicationId: "e8ea696f-20ed-43b3-84ac-68d372959e6a"
     });
     console.log(this.abacus)
