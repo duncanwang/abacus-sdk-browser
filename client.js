@@ -145,9 +145,9 @@ Abacus.prototype.getUserAnnotations = function () {
   });
 }
 
-Abacus.prototype.setTokenAnnotations = function ({applicationId, address, tokenId, data}) {
+Abacus.prototype.setTokenAnnotations = function ({address, tokenId, data}) {
   return fetch(
-    this._opts.apiURL + "/api/v1/applications/" + (this._opts.applicationId || applicationId) + "/tokens/" + address + "/" + tokenId + "/annotations",
+    this._opts.apiURL + "/api/v1/applications/" + this._opts.applicationId + "/tokens/" + address + "/" + tokenId + "/annotations",
     {
       method: "POST",
       headers: {
@@ -161,9 +161,9 @@ Abacus.prototype.setTokenAnnotations = function ({applicationId, address, tokenI
   });
 }
 
-Abacus.prototype.getTokenAnnotations = function ({applicationId, address, tokenId}) {
+Abacus.prototype.getTokenAnnotations = function ({address, tokenId}) {
   return fetch(
-    this._opts.apiURL + "/api/v1/applications/" + (this._opts.applicationId || applicationId) + "/tokens/" + address + "/" + tokenId + "/annotations",
+    this._opts.apiURL + "/api/v1/applications/" + this._opts.applicationId + "/tokens/" + address + "/" + tokenId + "/annotations",
     {
       headers: {
         "Authorization": "bearer " + this._authUser
