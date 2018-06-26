@@ -32,6 +32,7 @@ class App extends React.Component {
     }
     const houseData = await getAllHouses(this.abacus);
     this.setState({
+      user: this.abacus.readAuthToken(),
       houseData: houseData.map(x => ({
         ...((x && x.ethereum && x.ethereum.commitments) || {}),
         ...x.private
