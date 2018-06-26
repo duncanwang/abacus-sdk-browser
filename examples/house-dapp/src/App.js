@@ -3,7 +3,13 @@ import "./App.css";
 import Gallery from "./Gallery";
 import Settings from "./Settings";
 import Inspect from "./Inspect";
-import { APPID, HOUSECONTRACT, randomName, getAllHouses } from "./helpers";
+import {
+  APP_ID,
+  HOUSE_CONTRACT,
+  randomName,
+  getAllHouses,
+  generateHouses
+} from "./helpers";
 import Abacus from "@abacusprotocol/client-sdk";
 
 class App extends React.Component {
@@ -18,9 +24,10 @@ class App extends React.Component {
   async componentDidMount() {
     this.abacus = new Abacus({
       portalURL: "http://identity.abacusprotocol.com",
-      applicationId: APPID,
+      applicationId: APP_ID,
       requireKYC: false
     });
+    // await generateHouses(this.abacus);
     const houseData = await getAllHouses(this.abacus);
     this.setState({
       user: this.abacus.readAuthToken(),
