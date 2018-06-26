@@ -3,16 +3,10 @@ import "./App.css";
 import Gallery from "./Gallery";
 import Settings from "./Settings";
 import Inspect from "./Inspect";
-import {
-  APPID,
-  HOUSECONTRACT,
-  randomName,
-  getAllHouses
-} from "./helpers";
+import { APPID, HOUSECONTRACT, randomName, getAllHouses } from "./helpers";
 import Abacus from "@abacusprotocol/client-sdk";
 
 class App extends React.Component {
-
   state = {
     inspected: null,
     houseData: [],
@@ -62,27 +56,6 @@ class App extends React.Component {
   };
 
   _onPurchase = async (id, price) => {
-    this.setState({
-      disablePurchase: true
-    });
-    await this.abacus.setUserAnnotations({
-      private: {
-        balance: this.state.userData.private.balance - price
-      }
-    });
-    await this.abacus.setTokenAnnotations({
-      address: HOUSECONTRACT,
-      tokenId: id,
-      data: {
-        ethereum: {
-          owner: this.state.userData.balance
-        }
-      }
-    });
-    this._updateUser();
-    this.setState({
-      disablePurchase: false
-    });
   };
 
   render() {
@@ -134,7 +107,6 @@ class App extends React.Component {
       </div>
     );
   }
-
 }
 
 export default App;
