@@ -33,7 +33,7 @@ var closeModal = function (displaying, modal, onClose) {
   onClose();
 }
 
-Abacus.prototype.authorizeWithModal = function (options) {
+Abacus.prototype.authorizeWithModal= function (options) {
   var OPTS = {
     onOpen: options && typeof options.onOpen === 'function' ? options.onOpen : function () {},
     onClose: options && typeof options.onClose === 'function' ? options.onClose : function () {},
@@ -76,8 +76,8 @@ Abacus.prototype.authorizeWithModal = function (options) {
       if (event.data.payload === 'modal_close') {
         closeModal(this._displaying, modal, OPTS.onClose);
       }
-      if (event.data.payload.authToken) {
-        this._authUser = event.data.payload.authToken;
+      if (event.data.payload.appToken) {
+        this._authUser = event.data.payload.appToken;
         window.localStorage.abacusUserToken = this._authUser;
       }
     });
@@ -95,7 +95,7 @@ Abacus.prototype.parseToken = function (token) {
 }
 
 Abacus.prototype.readAuthToken = function () {
-  if (!this._authUser) throw AbacusError('no user logged in!', ERRORS.AUTH)
+  if (!this._authUser) return null;
   return this.parseToken(this._authUser);
 }
 Abacus.prototype.deauthorize = function () {
@@ -122,7 +122,8 @@ Abacus.prototype.setUserAnnotations = function (data) {
     {
       method: "POST",
       headers: {
-        "content-type": "application/json"
+        "content-type": "application/json",
+        "Authorization": "bearer " + this._authUser
       },
       body: JSON.stringify(data)
     }
@@ -135,19 +136,24 @@ Abacus.prototype.getUserAnnotations = function () {
   var user = this.readAuthToken();
   return fetch(
     this._opts.apiURL + "/api/v1/applications/" + user.applicationId + "/users/" + user.userId + "/annotations",
+    {
+      headers: {
+        "Authorization": "bearer " + this._authUser
+      }
+    }
   ).then(function (response) {
     return response.json();
   });
 }
 
 Abacus.prototype.setTokenAnnotations = function ({applicationId, address, tokenId, data}) {
-  var user = this.readAuthToken();
   return fetch(
     this._opts.apiURL + "/api/v1/applications/" + (this._opts.applicationId || applicationId) + "/tokens/" + address + "/" + tokenId + "/annotations",
     {
       method: "POST",
       headers: {
-        "content-type": "application/json"
+        "content-type": "application/json",
+        "Authorization": "bearer " + this._authUser
       },
       body: JSON.stringify(data)
     }
@@ -157,9 +163,13 @@ Abacus.prototype.setTokenAnnotations = function ({applicationId, address, tokenI
 }
 
 Abacus.prototype.getTokenAnnotations = function ({applicationId, address, tokenId}) {
-  var user = this.readAuthToken();
   return fetch(
     this._opts.apiURL + "/api/v1/applications/" + (this._opts.applicationId || applicationId) + "/tokens/" + address + "/" + tokenId + "/annotations",
+    {
+      headers: {
+        "Authorization": "bearer " + this._authUser
+      }
+    }
   ).then(function (response) {
     return response.json();
   });
