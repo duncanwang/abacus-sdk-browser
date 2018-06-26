@@ -18,7 +18,7 @@ contract HouseToken is ERC721Token("HouseToken", "AHT"), Ownable {
 
    /**
     * @dev Sets token metadata URI.
-    * @param _tokenId ID of token
+    * @param _tokenId token ID
     * @param _tokenURI token URI for the token
     */
     function setTokenURI(
