@@ -65,6 +65,11 @@
   display: flex;
   align-items: center;
 }
+.settings .address {
+  display: block;
+  word-wrap: break-word;
+  width: 200px;
+}
 .settings .head img {
   width: 40px;
   height: 40px;
@@ -83,6 +88,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  word-wrap: break-word;
 }
 .settings .item .label {
   

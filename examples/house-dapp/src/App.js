@@ -8,6 +8,7 @@ import {
   BURL,
   HOUSECONTRACT,
   generateHouses,
+  randomName,
   getAllHouses
 } from "./helpers";
 import Abacus from "@abacusprotocol/client-sdk";
@@ -38,10 +39,30 @@ class App extends React.Component {
         ...x.private
       }))
     });
+    this._updateUser();
   }
-  componentDidUpdate() {}
+  async componentDidUpdate(prevProps, prevState) {
+    if (this.state.user && this.state.user !== prevState.user) {
+      this._updateUser();
+    }
+  }
+  _updateUser = async () => {
+    const userData = await this.abacus.getUserAnnotations();
+    if (!userData.private || !userData.private.name) {
+      await this.abacus.setUserAnnotations({
+        private: {
+          name: randomName(),
+          balance: 100000,
+          location: "Japan"
+        }
+      });
+    }
+    this.setState({
+      userData: { meta: this.abacus.readAuthToken(), ...userData }
+    });
+  };
   render() {
-    console.log(this.state.user);
+    console.log(this.state.user, this.state.userData);
     return (
       <div className="App">
         <div className="header">
@@ -63,7 +84,7 @@ class App extends React.Component {
           data={this.state.houseData}
           onClick={x => this.setState({ inspected: x })}
         />
-        <Settings data={this.userData} />
+        <Settings data={this.state.userData} />
         <Inspect
           inspected={this.state.inspected}
           onExit={() => this.setState({ inspected: null })}
