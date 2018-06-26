@@ -5,7 +5,6 @@ class Inspect extends React.Component {
   render() {
     const { inspected, onExit, disabled, onPurchase } = this.props;
     if (!inspected) return null;
-    console.log(inspected);
     return (
       <div className="inspect">
         <button className="exit" onClick={onExit}>

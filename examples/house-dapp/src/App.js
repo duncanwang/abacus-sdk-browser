@@ -55,11 +55,9 @@ class App extends React.Component {
     });
   };
 
-  _onPurchase = async (id, price) => {
-  };
+  _onPurchase = async (id, price) => {};
 
   render() {
-    console.log(this.state);
     return (
       <div className="App">
         <div className="header">
