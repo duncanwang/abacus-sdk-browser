@@ -1,5 +1,3 @@
-'use strict';
-
 var fetch = require("cross-fetch");
 
 function AbacusError(message, name) {
