@@ -5,15 +5,26 @@ import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
 contract HouseToken is ERC721Token("HouseToken", "AHT"), Ownable {
 
-  /**
-  * @dev Mints a token to an address with a tokenURI.
-  * @param _to address of the future owner of the token
-  * @param _tokenURI token URI for the token
-  */
-  function mintTo(address _to, string _tokenURI) public onlyOwner {
-      uint256 newTokenId = totalSupply().add(1);
-      _mint(_to, newTokenId);
-      _setTokenURI(newTokenId, _tokenURI);
-  }
+    /**
+    * @dev Mints a token to an address.
+    * @param _to address of the future owner of the token
+    */
+    function mintTo(
+        address _to
+    ) public onlyOwner returns (uint256 tokenId) {
+        tokenId = totalSupply().add(1);
+        _mint(_to, tokenId);
+    }
+
+   /**
+    * @dev Sets token metadata URI.
+    * @param _tokenId ID of token
+    * @param _tokenURI token URI for the token
+    */
+    function setTokenURI(
+        uint256 _tokenId, string _tokenURI
+    ) public onlyOwner {
+        _setTokenURI(_tokenId, _tokenURI);
+    }
 
 }
