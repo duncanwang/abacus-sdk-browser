@@ -1,4 +1,3 @@
-export const BURL = "https://backend.abacusprotocol.com";
 export const APPID = "9d924e82-b2da-4e24-a1ed-885a5c30a17d";
 export const HOUSECONTRACT = "1b007d83a19c1628c427e616bb8dc5dd8f8e479c";
 export const HOUSE_IMAGES = [

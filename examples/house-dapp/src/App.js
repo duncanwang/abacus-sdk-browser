@@ -6,13 +6,13 @@ import Inspect from "./Inspect";
 import {
   APPID,
   HOUSECONTRACT,
-  generateHouses,
   randomName,
   getAllHouses
 } from "./helpers";
 import Abacus from "@abacusprotocol/client-sdk";
 
 class App extends React.Component {
+
   state = {
     inspected: null,
     houseData: [],
@@ -20,13 +20,13 @@ class App extends React.Component {
     userData: null,
     disablePurchase: true
   };
+
   async componentDidMount() {
     this.abacus = new Abacus({
       portalURL: "http://identity.abacusprotocol.com",
       applicationId: APPID,
       requireKYC: false
     });
-    //await generateHouses(this.abacus);
     const houseData = await getAllHouses(this.abacus);
     this.setState({
       user: this.abacus.readAuthToken(),
@@ -37,11 +37,13 @@ class App extends React.Component {
     });
     this._updateUser();
   }
+
   async componentDidUpdate(prevProps, prevState) {
     if (this.state.user && this.state.user !== prevState.user) {
       this._updateUser();
     }
   }
+
   _updateUser = async () => {
     const userData = await this.abacus.getUserAnnotations();
     if (!userData.private || !userData.private.name) {
@@ -58,6 +60,7 @@ class App extends React.Component {
       userData: { meta: this.abacus.readAuthToken(), ...userData }
     });
   };
+
   _onPurchase = async (id, price) => {
     this.setState({
       disablePurchase: true
@@ -81,6 +84,7 @@ class App extends React.Component {
       disablePurchase: false
     });
   };
+
   render() {
     console.log(this.state);
     return (
@@ -130,33 +134,7 @@ class App extends React.Component {
       </div>
     );
   }
+
 }
 
 export default App;
-
-const FAKE_DATA = [
-  {
-    owner: "Jerry Nguyen",
-    photo: "",
-    bed: 2,
-    bath: 2,
-    price: 10000,
-    location: "Japan"
-  },
-  {
-    owner: "Tommy Hillfinger",
-    photo: "https://photos.zillowstatic.com/p_f/IS62h4qdicipus0000000000.jpg",
-    bed: 2,
-    bath: 3,
-    price: 12000,
-    location: "United States"
-  },
-  {
-    owner: "Vitalik Buterin",
-    photo: "https://photos.zillowstatic.com/p_f/ISahj3k1s0w1ow0000000000.jpg",
-    bed: 2,
-    bath: 1,
-    price: 15000,
-    location: "Japan"
-  }
-];

@@ -1,7 +1,6 @@
 import React from "react";
 import "./App.css";
 import md5 from "js-md5";
-import { randomName } from "./helpers";
 
 class Settings extends React.Component {
   render() {
