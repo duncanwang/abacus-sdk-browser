@@ -1,5 +1,5 @@
-export const APIURL = "https://api.abacusprotocol.com";
-export const APPID = "e8ea696f-20ed-43b3-84ac-68d372959e6a";
+export const BURL = "https://backend.abacusprotocol.com";
+export const APPID = "a6ed3cfa-d5ac-4b5a-b500-230bb25558f4";
 export const HOUSECONTRACT = "189ad47F19407Fbeb01f50CecEFebE69701D5c2E";
 export const HOUSE_IMAGES = [
   "https://photos.zillowstatic.com/p_f/IS6uic30zqgwrw0000000000.jpg",
@@ -43,7 +43,7 @@ export const generateHouses = abacus => {
       data: {
         ethereum: {
           commitments: {
-            tid: i + 1,
+            tid: (i + 1).toString(),
             photo:
               HOUSE_IMAGES[
                 Math.floor(Math.random() * (HOUSE_IMAGES.length - 1))
