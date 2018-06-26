@@ -26,7 +26,7 @@ class App extends React.Component {
       applicationId: APPID,
       requireKYC: false
     });
-    await generateHouses(this.abacus);
+    //await generateHouses(this.abacus);
     const houseData = await getAllHouses(this.abacus);
     this.setState({
       user: this.abacus.readAuthToken(),
