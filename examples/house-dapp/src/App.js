@@ -46,9 +46,9 @@ class App extends React.Component {
   }
 
   _updateUser = async () => {
-    const userData = await this.abacus.getUserAnnotations();
+    const userData = await this.abacus.fetchUserAnnotations();
     if (!userData.private || !userData.private.name) {
-      await this.abacus.setUserAnnotations({
+      await this.abacus.writeUserAnnotations({
         private: {
           name: randomName(),
           balance: 100000,

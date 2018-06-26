@@ -38,7 +38,7 @@ export const getAllHouses = async abacus => {
   const tokenIds = await getHouseTokenIds();
   return await Promise.all(
     tokenIds.map(async (tokenId) => {
-      return abacus.getTokenAnnotations({
+      return abacus.fetchTokenAnnotations({
         address: HOUSE_CONTRACT,
         tokenId: tokenId
       });
@@ -55,7 +55,7 @@ export const randomName = () => NAMES[Math.floor(Math.random() * (NAMES.length -
 export const generateHouses = async (abacus) => {
   const tokenIds = await getHouseTokenIds();
   tokenIds.map((tokenId) =>
-    abacus.setTokenAnnotations({
+    abacus.writeTokenAnnotations({
       address: HOUSE_CONTRACT,
       tokenId: tokenId,
       data: {
