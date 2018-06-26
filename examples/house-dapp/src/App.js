@@ -15,21 +15,18 @@ import Abacus from "@abacusprotocol/client-sdk";
 class App extends React.Component {
   state = {
     inspected: null,
-    reset: false,
     houseData: [],
     user: null,
-    userData: null
+    userData: null,
+    disablePurchase: true
   };
   async componentDidMount() {
-    // how do I create an application ID?
     this.abacus = new Abacus({
       portalURL: "http://identity.abacusprotocol.com",
       applicationId: APPID,
       requireKYC: false
     });
-    if (this.state.reset === true) {
-      generateHouses(this.abacus);
-    }
+    await generateHouses(this.abacus);
     const houseData = await getAllHouses(this.abacus);
     this.setState({
       user: this.abacus.readAuthToken(),
@@ -57,11 +54,35 @@ class App extends React.Component {
       });
     }
     this.setState({
+      disablePurchase: false,
       userData: { meta: this.abacus.readAuthToken(), ...userData }
     });
   };
+  _onPurchase = async (id, price) => {
+    this.setState({
+      disablePurchase: true
+    });
+    await this.abacus.setUserAnnotations({
+      private: {
+        balance: this.state.userData.private.balance - price
+      }
+    });
+    await this.abacus.setTokenAnnotations({
+      address: HOUSECONTRACT,
+      tokenId: id,
+      data: {
+        ethereum: {
+          owner: this.state.userData.balance
+        }
+      }
+    });
+    this._updateUser();
+    this.setState({
+      disablePurchase: false
+    });
+  };
   render() {
-    console.log(this.state.user, this.state.userData);
+    console.log(this.state);
     return (
       <div className="App">
         <div className="header">
@@ -84,7 +105,11 @@ class App extends React.Component {
             <a
               onClick={() => {
                 this.abacus.deauthorize();
-                this.setState({ user: null, userData: null });
+                this.setState({
+                  disablePurchase: true,
+                  user: null,
+                  userData: null
+                });
               }}
             >
               Log out
@@ -97,6 +122,8 @@ class App extends React.Component {
         />
         <Settings data={this.state.userData} />
         <Inspect
+          disabled={this.state.disablePurchase}
+          onPurchase={this._onPurchase}
           inspected={this.state.inspected}
           onExit={() => this.setState({ inspected: null })}
         />

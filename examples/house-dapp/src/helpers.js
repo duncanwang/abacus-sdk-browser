@@ -43,6 +43,7 @@ export const generateHouses = abacus => {
       data: {
         ethereum: {
           commitments: {
+            tid: i + 1,
             photo:
               HOUSE_IMAGES[
                 Math.floor(Math.random() * (HOUSE_IMAGES.length - 1))

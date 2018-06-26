@@ -3,8 +3,9 @@ import "./App.css";
 
 class Inspect extends React.Component {
   render() {
-    const { inspected, onExit } = this.props;
+    const { inspected, onExit, disabled, onPurchase } = this.props;
     if (!inspected) return null;
+    console.log(inspected);
     return (
       <div className="inspect">
         <button className="exit" onClick={onExit}>
@@ -26,7 +27,13 @@ class Inspect extends React.Component {
           <p className="address">
             location: <b>{inspected.location}</b>
           </p>
-          <button className="purchase">Purchase</button>
+          <button
+            disabled={disabled}
+            className="purchase"
+            onClick={() => onPurchase(inspected.tid, inspected.price)}
+          >
+            Purchase
+          </button>
         </div>
       </div>
     );
