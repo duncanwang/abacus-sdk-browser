@@ -35,7 +35,7 @@ class Settings extends React.Component {
           <span className="label">
             Location: <b>{data.private.location}</b>
           </span>
-          <button>Switch to United States</button>
+          {/* <button>Switch to United States</button> */}
         </div>
       </div>
     );
