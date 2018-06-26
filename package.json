@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/abacusprotocol/client-sdk#readme",
   "dependencies": {
-    "cross-fetch": "^2.2.1"
+    "unfetch": "^3.0.0"
   },
   "devDependencies": {
     "rollup": "^0.61.2",
