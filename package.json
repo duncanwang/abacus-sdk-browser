@@ -2,11 +2,9 @@
   "name": "@abacusprotocol/client-sdk",
   "version": "0.1.39",
   "description": "Library to integrate Abacus SDK.",
-  "main": "dist/abacus.cjs.js",
-  "browser": "dist/abacus.umd.js",
-  "module": "dist/abacus.esm.js",
+  "main": "client.js",
   "scripts": {
-    "prepublish": "rollup client.js --format umd --name \"myBundle\" --file bundle.js ",
+    "prepublish": "rollup client.js --format umd --name \"Abacus\" --file ./dist/abacus.js ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
