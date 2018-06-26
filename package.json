@@ -2,9 +2,9 @@
   "name": "@abacusprotocol/client-sdk",
   "version": "0.1.37",
   "description": "Library to integrate Abacus SDK.",
-  "main": "client.js",
+  "main": "bundle.js",
   "scripts": {
-    "prepublish": "echo \"test\"",
+    "prepublish": "rollup main.js --format umd --name \"myBundle\" --file bundle.js ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
