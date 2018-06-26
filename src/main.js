@@ -1,4 +1,4 @@
-import fetch from "unfetch";
+import fetch from "cross-fetch";
 
 var ERRORS = {
   AUTH: "AuthenticationError"
