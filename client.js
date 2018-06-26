@@ -91,11 +91,11 @@ Abacus.prototype.authorizeWithModal= function (options) {
 }
 
 Abacus.prototype.parseToken = function (token) {
+  if (typeof token !== "string") return null;
   return JSON.parse(atob(token.split(".")[1]));
 }
 
 Abacus.prototype.readAuthToken = function () {
-  if (!this._authUser) return null;
   return this.parseToken(this._authUser);
 }
 Abacus.prototype.deauthorize = function () {
@@ -105,7 +105,6 @@ Abacus.prototype.deauthorize = function () {
 /* USER METHODS */
 
 Abacus.prototype.fetchVerificationStatus = function () {
-  var user = this.readAuthToken();
   return fetch(
     this._opts.apiURL + "/identity/verification_status?address=" + address
   ).then(function (response) {
