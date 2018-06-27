@@ -9,7 +9,7 @@ class Home extends React.Component {
     inspected: null,
     shoeData: [...Array(30)].map(x => ({
       ...GALLERY_DATA[randomNumber(0, 3)],
-      lowest_ask: randomNumber(70, 120),
+      lowest_ask: randomNumber(70, 110),
       time: randomNumber(5, 10)
     }))
   };
