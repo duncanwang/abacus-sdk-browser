@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+import { Link } from "react-router-dom";
 
 class Inspect extends React.Component {
   render() {
@@ -10,29 +11,18 @@ class Inspect extends React.Component {
         <button className="exit" onClick={onExit}>
           x
         </button>
-        <h1>{inspected.name}'s House</h1>
         <div className="img">
-          <img src={inspected.photo} />
+          <img src={inspected.url + "img36.jpg"} />
         </div>
         <div className="details">
+          <h1>{inspected.name}</h1>
           <div className="meta">
-            <p>
-              <b>{inspected.bed} bed</b> - <b>{inspected.bath} bath</b>
-            </p>
-            <p>
-              <b>${inspected.price}</b>
-            </p>
+            <p>{inspected.time} minutes ago</p>
           </div>
-          <p className="address">
-            location: <b>{inspected.location}</b>
-          </p>
-          <button
-            disabled={disabled}
-            className="purchase"
-            onClick={() => onPurchase(inspected.tid, inspected.price)}
-          >
-            Purchase
-          </button>
+          <p className="address">lowest ask: ${inspected.lowest_ask}</p>
+          <Link className="btn-bottom" to="/shoe">
+            <button className="purchase">Detailed Information</button>
+          </Link>
         </div>
       </div>
     );

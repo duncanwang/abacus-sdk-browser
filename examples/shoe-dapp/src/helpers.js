@@ -1,2 +1,2 @@
-export const randomNumber = (num, variance) =>
-  Math.floor(num + variance * num - Math.random() * variance * num * 2);
+export const randomNumber = (min, max) =>
+  Math.floor(min + Math.random() * (max - min));

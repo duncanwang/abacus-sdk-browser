@@ -34,6 +34,7 @@
   background-size: cover;
 }
 
+
 .gallery {
   grid-column: 1 / 10;
   display: grid;
@@ -41,35 +42,18 @@
   grid-gap: 20px;
   padding: 20px;
 }
-
 .gallery .item {
 }
 .gallery .item h1 {
   padding: 10px 0;
 }
-.gallery .item .img img {
+.gallery .item img {
   width: 100%;
-}
-.gallery .item .img {
   background: #eee;
   height: 150px;
-  position: relative;
-  overflow: hidden;
 }
-.gallery .item .img > div {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 10px;
-  font-weight: bold;
-}
-.gallery .item .img span {
-  display: block;
-  text-align: right;
-  margin-bottom: 5px;
-  color: #FFF;
-  text-shadow: 0 0 5px #000;
-}
+
+
 
 .settings .head h1 {
   font-weight: bold;
@@ -132,7 +116,9 @@
   margin: 20px;
 }
 .inspect .img img {
-  width: 100%;
+  width: 60%;
+  display: block;
+  margin: auto;
 }
 .inspect p {
   margin: 0;
@@ -155,10 +141,12 @@
   margin-left: auto;
 }
 .inspect .img {
-  background: #eee;
   width: 100%;
   height: 200px;
   overflow: hidden;
+}
+.inspect .btn-bottom {
+  width: 100%;
 }
 .inspect .purchase {
   width: 100%;

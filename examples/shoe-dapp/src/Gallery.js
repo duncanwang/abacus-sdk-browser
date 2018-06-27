@@ -10,12 +10,12 @@ class Gallery extends React.Component {
         {data.map((info, i) => {
           return (
             <div className="item" key={i} onClick={() => onClick(info)}>
-              <img src={info.photo} />
+              <img src={info.url + "img36.jpg"} />
               <div className="desc">
                 <h1>{info.name}</h1>
-                <span>${randomNumber(120, 0.4)}</span>
+                <span>${info.lowest_ask}</span>
                 <span>lowest ask</span>
-                <span>{randomNumber(10, 0.5)} minutes ago</span>
+                <span>{info.time} minutes ago</span>
               </div>
             </div>
           );
