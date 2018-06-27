@@ -22,7 +22,11 @@ function Abacus(params) {
   this.MODAL_ID = "abacusSDK";
   this._displaying = false;
   this._exists = false;
-  this._authUser = params.authToken || window.localStorage.abacusUserToken;
+  if (typeof window === "undefined") {
+    this._authUser = params.authToken;
+  } else {
+    this._authUser = params.authToken || window.localStorage.abacusUserToken;
+  }
 }
 
 /* AUTHENTICATION METHODS */
