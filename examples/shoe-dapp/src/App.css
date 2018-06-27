@@ -53,48 +53,6 @@
   height: 150px;
 }
 
-
-
-.settings .head h1 {
-  font-weight: bold;
-}
-.settings .head {
-  margin: 30px 0;
-  display: flex;
-  align-items: center;
-}
-.settings .address {
-  display: block;
-  word-wrap: break-word;
-  width: 200px;
-}
-.settings .head img {
-  width: 40px;
-  height: 40px;
-  border-radius: 100%;
-  margin-right: 10px;
-}
-.settings {
-  display: flex;
-  grid-column: span 3;  
-  flex-direction: column;
-  border-left: 2px solid #eee;
-  padding: 20px;
-}
-.settings .item {
-  padding: 10px 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  word-wrap: break-word;
-}
-.settings .item .label {
-  
-}
-.settings .item button {
-  flex-grow: 2;
-}
-
 .inspect {
   position: fixed;
   bottom: 0;
@@ -150,4 +108,19 @@
 }
 .inspect .purchase {
   width: 100%;
+}
+
+.shoe {
+  grid-column: 1 / -1;
+}
+.shoe .mid {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(12, 1fr);
+}
+.shoe .mid .desc {
+  grid-column: span 4 / -1;
+}
+.shoe .mid .shoe-scroller {
+  grid-column: span 7;
 }

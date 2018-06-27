@@ -11,7 +11,12 @@ class Shoe extends React.Component {
       <div className="shoe">
         <h1>{meta.name}</h1>
         <div className="mid">
-          <ShoeScroller />
+          <ShoeScroller url={meta.url} />
+          <div className="desc">
+            <div className="item">
+              lowest ask: <b>{meta.lowest_ask}</b>
+            </div>
+          </div>
         </div>
       </div>
     );
