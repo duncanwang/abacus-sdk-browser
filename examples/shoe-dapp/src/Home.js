@@ -10,6 +10,10 @@ class Home extends React.Component {
   render() {
     return (
       <div className="home">
+        <div className="search-wrapper">
+          <input placeholder="filter by brand, color, etc." />
+          <button>Search</button>
+        </div>
         <Gallery data={[]} onClick={x => this.setState({ inspected: x })} />
         <Inspect
           inspected={this.state.inspected}

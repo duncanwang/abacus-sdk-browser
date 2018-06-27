@@ -20,6 +20,20 @@
 .header .title {
 }
 
+.home {
+  grid-column: 1 / -1;
+}
+.search-wrapper {
+  background: url('https://images.unsplash.com/photo-1491553895911-0055eca6402d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=4505ad993e9162d9ccf05d2670a26916&auto=format&fit=crop&w=800&q=80');
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-position: center;
+  background-size: cover;
+}
+
 .gallery {
   grid-column: 1 / 10;
   display: grid;
