@@ -1,4 +1,4 @@
-import fetch from "cross-fetch";
+import fetch from "unfetch";
 
 var ERRORS = {
   AUTH: "AuthenticationError"
@@ -134,7 +134,7 @@ Abacus.prototype.fetchVerifications = function() {
 
 /* ANNOTATION METHODS */
 
-Abacus.prototype.writeUserAnnotations = function (data) {
+Abacus.prototype.writeUserAnnotations = function(data) {
   var user = this.readAuthToken();
   return fetch(
     this._opts.apiURL +
@@ -156,7 +156,7 @@ Abacus.prototype.writeUserAnnotations = function (data) {
   });
 };
 
-Abacus.prototype.fetchUserAnnotations = function () {
+Abacus.prototype.fetchUserAnnotations = function() {
   var user = this.readAuthToken();
   return fetch(
     this._opts.apiURL +
@@ -175,7 +175,7 @@ Abacus.prototype.fetchUserAnnotations = function () {
   });
 };
 
-Abacus.prototype.writeTokenAnnotations = function ({address, tokenId, data}) {
+Abacus.prototype.writeTokenAnnotations = function({ address, tokenId, data }) {
   return fetch(
     this._opts.apiURL +
       "/api/v1/applications/" +
@@ -198,7 +198,7 @@ Abacus.prototype.writeTokenAnnotations = function ({address, tokenId, data}) {
   });
 };
 
-Abacus.prototype.fetchTokenAnnotations = function ({address, tokenId}) {
+Abacus.prototype.fetchTokenAnnotations = function({ address, tokenId }) {
   return fetch(
     this._opts.apiURL +
       "/api/v1/applications/" +
