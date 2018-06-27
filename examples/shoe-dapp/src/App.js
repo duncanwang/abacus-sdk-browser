@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import Shoe from "./Shoe";
 import Home from "./Home";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class App extends React.Component {
   state = {
@@ -14,7 +14,9 @@ class App extends React.Component {
       <Router>
         <div className="App">
           <div className="header">
-            <h1 className="title">Abacus Shoe Marketplace</h1>
+            <Link to="/">
+              <h1 className="title">Abacus Shoe Marketplace</h1>
+            </Link>
             {!this.state.userData && <button className="login">Log in</button>}
             {this.state.userData && <a>Log out</a>}
           </div>

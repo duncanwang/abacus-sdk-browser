@@ -20,7 +20,10 @@ class Inspect extends React.Component {
             <p>{inspected.time} minutes ago</p>
           </div>
           <p className="address">lowest ask: ${inspected.lowest_ask}</p>
-          <Link className="btn-bottom" to="/shoe">
+          <Link
+            className="btn-bottom"
+            to={`/shoe/${inspected.name.replace(/ /g, "-")}`}
+          >
             <button className="purchase">Detailed Information</button>
           </Link>
         </div>
