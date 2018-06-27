@@ -1,9 +1,13 @@
 {
   "name": "@abacusprotocol/client-sdk",
-  "version": "0.1.50",
+  "version": "0.1.51",
   "description": "Library to integrate Abacus SDK.",
-  "main": "main.js",
+  "main": "dist/abacus.cjs.js",
+  "browser": "dist/abacus.umd.js",
+  "module": "dist/abacus.esm.js",
   "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,7 +21,6 @@
   },
   "homepage": "https://github.com/abacusprotocol/client-sdk#readme",
   "dependencies": {
-    "cross-fetch": "^2.2.1",
     "unfetch": "^3.0.0"
   },
   "devDependencies": {
