@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+import { randomNumber } from "./helpers";
 
 class Gallery extends React.Component {
   render() {
@@ -9,14 +10,12 @@ class Gallery extends React.Component {
         {data.map((info, i) => {
           return (
             <div className="item" key={i} onClick={() => onClick(info)}>
-              <div className="img">
-                <img src={info.photo} />
-                <div>
-                  <span>${info.price}</span>
-                  <span>
-                    {info.bed} beds - {info.bath} bath
-                  </span>
-                </div>
+              <img src={info.photo} />
+              <div className="desc">
+                <h1>{info.name}</h1>
+                <span>${randomNumber(120, 0.4)}</span>
+                <span>lowest ask</span>
+                <span>{randomNumber(10, 0.5)} minutes ago</span>
               </div>
             </div>
           );
