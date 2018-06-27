@@ -22,7 +22,7 @@ function Abacus(params) {
   this.MODAL_ID = "abacusSDK";
   this._displaying = false;
   this._exists = false;
-  this._authUser = window.localStorage.abacusUserToken;
+  this._authUser = params.authToken || window.localStorage.abacusUserToken;
 }
 
 /* AUTHENTICATION METHODS */
@@ -107,7 +107,9 @@ Abacus.prototype.parseToken = function(token) {
 Abacus.prototype.readAuthToken = function() {
   return this.parseToken(this._authUser);
 };
+
 Abacus.prototype.deauthorize = function() {
+  this._authUser = null;
   window.localStorage.abacusUserToken = null;
 };
 
