@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import { Link } from "react-router-dom";
+import ShoeScroller from "./ShoeScroller";
 
 class Inspect extends React.Component {
   render() {
@@ -12,7 +13,7 @@ class Inspect extends React.Component {
           x
         </button>
         <div className="img">
-          <img src={inspected.url + "img36.jpg"} />
+          <ShoeScroller url={inspected.url} />
         </div>
         <div className="details">
           <h1>{inspected.name}</h1>

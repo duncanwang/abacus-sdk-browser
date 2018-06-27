@@ -100,7 +100,7 @@
 }
 .inspect .img {
   width: 100%;
-  height: 200px;
+  height: 240px;
   overflow: hidden;
 }
 .inspect .btn-bottom {
@@ -128,6 +128,9 @@
   grid-column: span 7;
 }
 
+.shoe-scroller img {
+  width: 100%;
+}
 .shoe-scroller .slider {
   -webkit-appearance: none;
   width: 100%;
