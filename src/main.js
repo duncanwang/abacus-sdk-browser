@@ -42,6 +42,7 @@ class Abacus {
     } else {
       this._authUser = params.authToken || window.localStorage.abacusUserToken;
     }
+    this.baseURL = `${this._opts.apiURL}/api/v1`;
   }
 
   /**
@@ -132,8 +133,7 @@ class Abacus {
   }
 
   async _sendRequest(url, data, mergeOpts = {}) {
-    const baseURL = `${this._opts.apiURL}/api/v1`;
-    const res = await fetch(baseURL + url, {
+    const res = await fetch(this.baseURL + url, {
       headers: {
         "content-type": "application/json",
         Authorization: "Bearer " + this._authUser
@@ -183,6 +183,19 @@ class Abacus {
         user.userId
       }/verifications`
     );
+  }
+
+  /**
+   * Gets the URI for token metadata.
+   *
+   * @param {Object} address The address of the token.
+   * @param {Object} tokenId The id of the token.
+   */
+  getTokenURI({ address, tokenId }) {
+    return;
+    `${this.baseURL}/applications/${
+      this._opts.applicationId
+    }/tokens/${address}/${tokenId}/metadata`;
   }
 
   /* ANNOTATION METHODS */
