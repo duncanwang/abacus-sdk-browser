@@ -49,13 +49,13 @@ class Abacus {
    *
    * @param {function} onClose Called if and when the modal is closed.
    */
-  closeModal = onClose => {
+  closeModal(onClose) {
     if (!this._displaying) return;
     const modal = document.getElementById(this.MODAL_ID);
     modal.style.display = "none";
     this._displaying = false;
     onClose();
-  };
+  }
 
   /* AUTHENTICATION METHODS */
 
@@ -67,7 +67,7 @@ class Abacus {
    * @param {function} onClose Called when the modal is closed.
    * @param {Boolean} runVerifications True if the modal should include the verifications flow for the application.
    */
-  authorizeWithModal = options => {
+  authorizeWithModal(options) {
     const OPTS = {
       onOpen:
         options && typeof options.onOpen === "function"
@@ -129,9 +129,9 @@ class Abacus {
       this._displaying = true;
     }, 1);
     this._exists = true;
-  };
+  }
 
-  _sendRequest = async (url, data, mergeOpts = {}) => {
+  async _sendRequest(url, data, mergeOpts = {}) {
     const baseURL = `${this._opts.apiURL}/api/v1`;
     const res = await fetch(baseURL + url, {
       headers: {
@@ -141,18 +141,18 @@ class Abacus {
       ...mergeOpts
     });
     return await res.json();
-  };
+  }
 
-  _sendGetRequest = async (url, data) => {
+  async _sendGetRequest(url, data) {
     return await this._sendRequest(url, data);
-  };
+  }
 
-  _sendPostRequest = async (url, data) => {
+  async _sendPostRequest(url, data) {
     return await this._sendRequest(url, data, {
       method: "POST",
       body: JSON.stringify(data)
     });
-  };
+  }
 
   /**
    * get information from jwt token
@@ -176,14 +176,14 @@ class Abacus {
    * Fetches a list of all identity verifications performed on the user.
    * @returns {Object} A map of verification type to status.
    */
-  fetchVerifications = async () => {
+  async fetchVerifications() {
     const user = this.readAuthToken();
     return await this._sendGetRequest(
       `/applications/${this._opts.applicationId}/users/${
         user.userId
       }/verifications`
     );
-  };
+  }
 
   /* ANNOTATION METHODS */
 
@@ -196,7 +196,7 @@ class Abacus {
    * @param {Object} data.ethereum.bytes Key-value mapping of bytes data to store on-chain. The key can be any string, and the value must be a hex-encoded string.
    * @param {Object} data.private Key-value mapping of data to store off-chain.
    */
-  writeUserAnnotations = async data => {
+  async writeUserAnnotations(data) {
     const user = this.readAuthToken();
     return await this._sendPostRequest(
       `/applications/${this._opts.applicationId}/users/${
@@ -204,19 +204,19 @@ class Abacus {
       }/annotations`,
       data
     );
-  };
+  }
 
   /**
    * Fetches a list of all annotations on the user.
    */
-  fetchUserAnnotations = async () => {
+  async fetchUserAnnotations() {
     const user = this.readAuthToken();
     return await this._sendGetRequest(
       `/applications/${this._opts.applicationId}/users/${
         user.userId
       }/annotations`
     );
-  };
+  }
 
   /**
    * Writes annotations for a specific token.
@@ -229,14 +229,14 @@ class Abacus {
    * @param {Object} data.ethereum.bytes Key-value mapping of bytes data to store on-chain. The key can be any string, and the value must be a hex-encoded string.
    * @param {Object} data.private Key-value mapping of data to store off-chain.
    */
-  writeTokenAnnotations = async ({ address, tokenId, data }) => {
+  async writeTokenAnnotations({ address, tokenId, data }) {
     return await this._sendPostRequest(
       `/applications/${
         this._opts.applicationId
       }/tokens/${address}/${tokenId}/annotations`,
       data
     );
-  };
+  }
 
   /**
    * Fetches a list of all annotations on a specific token.
@@ -244,13 +244,13 @@ class Abacus {
    * @param {Object} address The address of the token.
    * @param {Object} tokenId The id of the token.
    */
-  fetchTokenAnnotations = async ({ address, tokenId }) => {
+  async fetchTokenAnnotations({ address, tokenId }) {
     return await this._sendGetRequest(
       `/applications/${
         this._opts.applicationId
       }/tokens/${address}/${tokenId}/annotations`
     );
-  };
+  }
 }
 
 export default Abacus;
