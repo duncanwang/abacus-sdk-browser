@@ -1,3 +1,4 @@
+import "@babel/polyfill";
 import fetch from "isomorphic-unfetch";
 
 var ERRORS = {
@@ -104,6 +105,29 @@ class Abacus {
     this._exists = true;
   }
 
+  async _sendRequest(url, data, mergeOpts = {}) {
+    const baseURL = `${this._opts.apiURL}/api/v1`;
+    const res = await fetch(baseURL + url, {
+      headers: {
+        "content-type": "application/json",
+        Authorization: "Bearer " + this._authUser
+      },
+      ...mergeOpts
+    });
+    return await response.json();
+  }
+
+  async _sendGetRequest(url, data) {
+    return await this._sendRequest(url, data);
+  }
+
+  async _sendPostRequest(url, data) {
+    return await this._sendRequest(url, data, {
+      method: "POST",
+      body: JSON.stringify(data)
+    });
+  }
+
   parseToken(token) {
     if (typeof token !== "string") return null;
     return JSON.parse(atob(token.split(".")[1]));
@@ -120,109 +144,54 @@ class Abacus {
 
   /* USER METHODS */
 
-  fetchVerifications() {
-    var user = this.readAuthToken();
-    return fetch(
-      this._opts.apiURL +
-        "/api/v1/applications/" +
-        user.applicationId +
-        "/users/" +
-        user.userId +
-        "/verifications",
-      {
-        headers: {
-          Authorization: "bearer " + this._authUser
-        }
-      }
-    ).then(function(response) {
-      return response.json();
-    });
+  async fetchVerifications() {
+    const user = this.readAuthToken();
+    return await this._sendGetRequest(
+      `/applications/${this._opts.applicationId}/users/${
+        user.userId
+      }/verifications`,
+      data
+    );
   }
 
   /* ANNOTATION METHODS */
 
-  writeUserAnnotations(data) {
-    var user = this.readAuthToken();
-    return fetch(
-      this._opts.apiURL +
-        "/api/v1/applications/" +
-        user.applicationId +
-        "/users/" +
-        user.userId +
-        "/annotations",
-      {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          Authorization: "bearer " + this._authUser
-        },
-        body: JSON.stringify(data)
-      }
-    ).then(function(response) {
-      return response.json();
-    });
+  async writeUserAnnotations(data) {
+    const user = this.readAuthToken();
+    return await this._sendPostRequest(
+      `/applications/${this._opts.applicationId}/users/${
+        user.userId
+      }/annotations`,
+      data
+    );
   }
 
-  fetchUserAnnotations() {
-    var user = this.readAuthToken();
-    return fetch(
-      this._opts.apiURL +
-        "/api/v1/applications/" +
-        user.applicationId +
-        "/users/" +
-        user.userId +
-        "/annotations",
-      {
-        headers: {
-          Authorization: "bearer " + this._authUser
-        }
-      }
-    ).then(function(response) {
-      return response.json();
-    });
+  async fetchUserAnnotations() {
+    const user = this.readAuthToken();
+    return await this._sendGetRequest(
+      `/applications/${this._opts.applicationId}/users/${
+        user.userId
+      }/annotations`,
+      data
+    );
   }
 
-  writeTokenAnnotations({ address, tokenId, data }) {
-    return fetch(
-      this._opts.apiURL +
-        "/api/v1/applications/" +
-        this._opts.applicationId +
-        "/tokens/" +
-        address +
-        "/" +
-        tokenId +
-        "/annotations",
-      {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          Authorization: "bearer " + this._authUser
-        },
-        body: JSON.stringify(data)
-      }
-    ).then(function(response) {
-      return response.json();
-    });
+  async writeTokenAnnotations({ address, tokenId, data }) {
+    return await this._sendPostRequest(
+      `/applications/${
+        this._opts.applicationId
+      }/tokens/${address}/${tokenId}/annotations`,
+      data
+    );
   }
 
-  fetchTokenAnnotations({ address, tokenId }) {
-    return fetch(
-      this._opts.apiURL +
-        "/api/v1/applications/" +
-        this._opts.applicationId +
-        "/tokens/" +
-        address +
-        "/" +
-        tokenId +
-        "/annotations",
-      {
-        headers: {
-          Authorization: "bearer " + this._authUser
-        }
-      }
-    ).then(function(response) {
-      return response.json();
-    });
+  async fetchTokenAnnotations({ address, tokenId }) {
+    return await this._sendGetRequest(
+      `/applications/${
+        this._opts.applicationId
+      }/tokens/${address}/${tokenId}/annotations`,
+      data
+    );
   }
 }
 
