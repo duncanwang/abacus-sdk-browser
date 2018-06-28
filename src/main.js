@@ -11,13 +11,6 @@ function AbacusError(message, name) {
   return instance;
 }
 
-var closeModal = function(displaying, modal, onClose) {
-  if (!_displaying) return;
-  modal.style.display = "none";
-  _displaying = false;
-  onClose();
-};
-
 class Abacus {
   constructor(params) {
     if (!params.applicationId)
@@ -36,6 +29,13 @@ class Abacus {
     } else {
       this._authUser = params.authToken || window.localStorage.abacusUserToken;
     }
+  }
+
+  closeModal(modal, onClose) {
+    if (!this._displaying) return;
+    modal.style.display = "none";
+    this._displaying = false;
+    onClose();
   }
 
   /* AUTHENTICATION METHODS */
@@ -79,17 +79,17 @@ class Abacus {
     if (!this._exists) {
       window.addEventListener("click", function(event) {
         if (event.target != modal && this._displaying) {
-          closeModal(this._displaying, modal, OPTS.onClose);
+          this.closeModal(this._displaying, modal, OPTS.onClose);
         }
       });
       window.addEventListener("message", function(event) {
         // TODO: deprecated this part
         if (event.data === "abacus_modal_close") {
-          closeModal(this._displaying, modal, OPTS.onClose);
+          this.closeModal(modal, OPTS.onClose);
         }
         if (event.data.name !== "abacus") return;
         if (event.data.payload === "modal_close") {
-          closeModal(this._displaying, modal, OPTS.onClose);
+          this.closeModal(modal, OPTS.onClose);
         }
         if (event.data.payload.appToken) {
           this._authUser = event.data.payload.appToken;
