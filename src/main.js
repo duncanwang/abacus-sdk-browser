@@ -2,15 +2,11 @@ import "@babel/polyfill";
 import fetch from "isomorphic-unfetch";
 import * as qs from "qs";
 
-var ERRORS = {
-  AUTH: "AuthenticationError"
-};
-
-function AbacusError(message, name) {
+const AbacusError = (message, name) => {
   var instance = new Error("Abacus Err:" + message);
   instance.name = name || instance.name;
   return instance;
-}
+};
 
 const parseJWT = token => {
   if (typeof token !== "string") return null;
@@ -53,13 +49,13 @@ class Abacus {
    *
    * @param {function} onClose Called if and when the modal is closed.
    */
-  closeModal(onClose) {
+  closeModal = onClose => {
     if (!this._displaying) return;
     const modal = document.getElementById(this.MODAL_ID);
     modal.style.display = "none";
     this._displaying = false;
     onClose();
-  }
+  };
 
   /* AUTHENTICATION METHODS */
 
@@ -71,7 +67,7 @@ class Abacus {
    * @param {function} onClose Called when the modal is closed.
    * @param {Boolean} runVerifications True if the modal should include the verifications flow for the application.
    */
-  authorizeWithModal(options) {
+  authorizeWithModal = options => {
     const OPTS = {
       onOpen:
         options && typeof options.onOpen === "function"
@@ -137,9 +133,9 @@ class Abacus {
       this._displaying = true;
     }, 1);
     this._exists = true;
-  }
+  };
 
-  async _sendRequest(url, data, mergeOpts = {}) {
+  _sendRequest = async (url, data, mergeOpts = {}) => {
     const baseURL = `${this._opts.apiURL}/api/v1`;
     const res = await fetch(baseURL + url, {
       headers: {
@@ -148,24 +144,31 @@ class Abacus {
       },
       ...mergeOpts
     });
-    return await response.json();
-  }
+    return await res.json();
+  };
 
-  async _sendGetRequest(url, data) {
+  _sendGetRequest = async (url, data) => {
     return await this._sendRequest(url, data);
-  }
+  };
 
-  async _sendPostRequest(url, data) {
+  _sendPostRequest = async (url, data) => {
     return await this._sendRequest(url, data, {
       method: "POST",
       body: JSON.stringify(data)
     });
-  }
+  };
 
+  /**
+   * get information from jwt token
+   * @returns {Object} auth token data
+   */
   readAuthToken() {
-    return this.parseToken(this._authUser);
+    return parseJWT(this._authUser);
   }
 
+  /**
+   * deactivate the currently logged in user
+   */
   deauthorize() {
     this._authUser = null;
     window.localStorage.abacusUserToken = null;
@@ -177,7 +180,7 @@ class Abacus {
    * Fetches a list of all identity verifications performed on the user.
    * @returns <Object> A map of verification type to status.
    */
-  async fetchVerifications() {
+  fetchVerifications = async () => {
     const user = this.readAuthToken();
     return await this._sendGetRequest(
       `/applications/${this._opts.applicationId}/users/${
@@ -185,7 +188,7 @@ class Abacus {
       }/verifications`,
       data
     );
-  }
+  };
 
   /* ANNOTATION METHODS */
 
@@ -198,7 +201,7 @@ class Abacus {
    * @param {Object} data.ethereum.bytes Key-value mapping of bytes data to store on-chain. The key can be any string, and the value must be a hex-encoded string.
    * @param {Object} data.private Key-value mapping of data to store off-chain.
    */
-  async writeUserAnnotations(data) {
+  writeUserAnnotations = async (data) => {
     const user = this.readAuthToken();
     return await this._sendPostRequest(
       `/applications/${this._opts.applicationId}/users/${
@@ -211,7 +214,7 @@ class Abacus {
   /**
    * Fetches a list of all annotations on the user.
    */
-  async fetchUserAnnotations() {
+  fetchUserAnnotations = async () => {
     const user = this.readAuthToken();
     return await this._sendGetRequest(
       `/applications/${this._opts.applicationId}/users/${
@@ -232,7 +235,7 @@ class Abacus {
    * @param {Object} data.ethereum.bytes Key-value mapping of bytes data to store on-chain. The key can be any string, and the value must be a hex-encoded string.
    * @param {Object} data.private Key-value mapping of data to store off-chain.
    */
-  async writeTokenAnnotations({ address, tokenId, data }) {
+  writeTokenAnnotations = async ({ address, tokenId, data }) => {
     return await this._sendPostRequest(
       `/applications/${
         this._opts.applicationId
@@ -247,7 +250,7 @@ class Abacus {
    * @param {Object} address The address of the token.
    * @param {Object} tokenId The id of the token.
    */
-  async fetchTokenAnnotations({ address, tokenId }) {
+  fetchTokenAnnotations = async ({ address, tokenId }) => {
     return await this._sendGetRequest(
       `/applications/${
         this._opts.applicationId
