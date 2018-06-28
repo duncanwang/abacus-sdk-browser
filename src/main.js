@@ -154,12 +154,21 @@ class Abacus {
     });
   }
 
-  /**
-   * get information from jwt token
-   * @returns {Object} auth token data
-   */
   readAuthToken() {
     return parseJWT(this._authUser);
+  }
+
+  /**
+   * get information from jwt token
+   * @returns {Object} auth information
+   */
+  getAuthorizedUser() {
+    const { exp, address, applicationId } = this.readAuthToken();
+    return {
+      expires: exp,
+      address,
+      applicationId
+    };
   }
 
   /**
