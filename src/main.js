@@ -113,10 +113,6 @@ class Abacus {
         }
       });
       window.addEventListener("message", function(event) {
-        // TODO: deprecated this part
-        if (event.data === "abacus_modal_close") {
-          this.closeModal(OPTS.onClose);
-        }
         if (event.data.name !== "abacus") return;
         if (event.data.payload === "modal_close") {
           this.closeModal(OPTS.onClose);
@@ -178,15 +174,14 @@ class Abacus {
 
   /**
    * Fetches a list of all identity verifications performed on the user.
-   * @returns <Object> A map of verification type to status.
+   * @returns {Object} A map of verification type to status.
    */
   fetchVerifications = async () => {
     const user = this.readAuthToken();
     return await this._sendGetRequest(
       `/applications/${this._opts.applicationId}/users/${
         user.userId
-      }/verifications`,
-      data
+      }/verifications`
     );
   };
 
@@ -219,8 +214,7 @@ class Abacus {
     return await this._sendGetRequest(
       `/applications/${this._opts.applicationId}/users/${
         user.userId
-      }/annotations`,
-      data
+      }/annotations`
     );
   };
 
