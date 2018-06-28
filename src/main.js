@@ -42,6 +42,7 @@ class Abacus {
     } else {
       this._authUser = params.authToken || window.localStorage.abacusUserToken;
     }
+    this.baseURL = `${this._opts.apiURL}/api/v1`;
   }
 
   /**
@@ -132,8 +133,7 @@ class Abacus {
   };
 
   _sendRequest = async (url, data, mergeOpts = {}) => {
-    const baseURL = `${this._opts.apiURL}/api/v1`;
-    const res = await fetch(baseURL + url, {
+    const res = await fetch(this.baseURL + url, {
       headers: {
         "content-type": "application/json",
         Authorization: "Bearer " + this._authUser
@@ -184,6 +184,19 @@ class Abacus {
       }/verifications`
     );
   };
+
+  /**
+   * Writes annotations for a specific token.
+   *
+   * @param {Object} address The address of the token.
+   * @param {Object} tokenId The id of the token.
+   */
+  getMetadataURI({ address, tokenId }) {
+    return;
+    `${this.baseURL}/applications/${
+      this._opts.applicationId
+    }/tokens/${address}/${tokenId}/verifications`;
+  }
 
   /* ANNOTATION METHODS */
 
