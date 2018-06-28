@@ -108,12 +108,12 @@ class Abacus {
     modal.style.display = "block";
 
     if (!this._exists) {
-      window.addEventListener("click", function(event) {
+      window.addEventListener("click", event => {
         if (event.target != modal && this._displaying) {
           this.closeModal(this._displaying, modal, OPTS.onClose);
         }
       });
-      window.addEventListener("message", function(event) {
+      window.addEventListener("message", event => {
         if (event.data.name !== "abacus") return;
         if (event.data.payload === "modal_close") {
           this.closeModal(OPTS.onClose);
