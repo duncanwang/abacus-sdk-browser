@@ -201,7 +201,7 @@ class Abacus {
    * @param {Object} data.ethereum.bytes Key-value mapping of bytes data to store on-chain. The key can be any string, and the value must be a hex-encoded string.
    * @param {Object} data.private Key-value mapping of data to store off-chain.
    */
-  writeUserAnnotations = async (data) => {
+  writeUserAnnotations = async data => {
     const user = this.readAuthToken();
     return await this._sendPostRequest(
       `/applications/${this._opts.applicationId}/users/${
@@ -209,7 +209,7 @@ class Abacus {
       }/annotations`,
       data
     );
-  }
+  };
 
   /**
    * Fetches a list of all annotations on the user.
@@ -222,7 +222,7 @@ class Abacus {
       }/annotations`,
       data
     );
-  }
+  };
 
   /**
    * Writes annotations for a specific token.
@@ -242,7 +242,7 @@ class Abacus {
       }/tokens/${address}/${tokenId}/annotations`,
       data
     );
-  }
+  };
 
   /**
    * Fetches a list of all annotations on a specific token.
@@ -254,10 +254,9 @@ class Abacus {
     return await this._sendGetRequest(
       `/applications/${
         this._opts.applicationId
-      }/tokens/${address}/${tokenId}/annotations`,
-      data
+      }/tokens/${address}/${tokenId}/annotations`
     );
-  }
+  };
 }
 
 export default Abacus;
