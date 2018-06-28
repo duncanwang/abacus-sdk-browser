@@ -186,16 +186,16 @@ class Abacus {
   };
 
   /**
-   * Writes annotations for a specific token.
+   * Gets the URI for token metadata.
    *
    * @param {Object} address The address of the token.
    * @param {Object} tokenId The id of the token.
    */
-  getMetadataURI({ address, tokenId }) {
+  getTokenURI({ address, tokenId }) {
     return;
     `${this.baseURL}/applications/${
       this._opts.applicationId
-    }/tokens/${address}/${tokenId}/verifications`;
+    }/tokens/${address}/${tokenId}/metadata`;
   }
 
   /* ANNOTATION METHODS */
