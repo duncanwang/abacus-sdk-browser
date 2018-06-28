@@ -85,7 +85,7 @@ class Abacus {
     if (this._opts.applicationId) {
       query.application = this._opts.applicationId;
     }
-    if (this._opts.runVerifications) {
+    if (OPTS.runVerifications) {
       query.requireKYC = "true";
     }
 
