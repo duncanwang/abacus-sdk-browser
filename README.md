@@ -4,7 +4,7 @@
 
 The Abacus Client SDK.
 
-Full documentation is available on the [Abacus Client SDK Docs](https://abacusprotocol.github.io/client-docs/).
+Full documentation is available on the [Abacus Client SDK Docs](https://docs.abacusprotocol.com).
 
 ## Installing
 
