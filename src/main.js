@@ -91,7 +91,6 @@ class Abacus {
     var modal = document.getElementById(this.MODAL_ID);
     if (!modal) {
       modal = document.createElement("iframe");
-      modal.src = this._opts.portalURL + "/modal/login?" + qs.stringify(query);
       modal.width = "100%";
       modal.height = "100%";
       modal.frameBorder = "0";
@@ -103,6 +102,8 @@ class Abacus {
       modal.style.overflow = "hidden";
       document.body.appendChild(modal);
     }
+    // reset the modal
+    modal.src = this._opts.portalURL + "/modal/login?" + qs.stringify(query);
     OPTS.onOpen();
     modal.style.display = "block";
 
