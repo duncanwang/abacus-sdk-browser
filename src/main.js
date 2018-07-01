@@ -108,21 +108,27 @@ class Abacus {
     modal.style.display = "block";
 
     if (!this._exists) {
-      window.addEventListener("click", event => {
-        if (event.target != modal && this._displaying) {
-          this.closeModal(OPTS.onClose);
-        }
-      });
-      window.addEventListener("message", event => {
-        if (event.data.name !== "abacus") return;
-        if (event.data.payload === "modal_close") {
-          this.closeModal(OPTS.onClose);
-        }
-        if (event.data.payload.appToken) {
-          this._authUser = event.data.payload.appToken;
-          window.localStorage.abacusUserToken = this._authUser;
-        }
-      });
+      window.addEventListener(
+        "click",
+        (event => {
+          if (event.target != modal && this._displaying) {
+            this.closeModal(OPTS.onClose);
+          }
+        }).bind(this)
+      );
+      window.addEventListener(
+        "message",
+        (event => {
+          if (event.data.name !== "abacus") return;
+          if (event.data.payload === "modal_close") {
+            this.closeModal(OPTS.onClose);
+          }
+          if (event.data.payload.appToken) {
+            this._authUser = event.data.payload.appToken;
+            window.localStorage.abacusUserToken = this._authUser;
+          }
+        }).bind(this)
+      );
     }
 
     // weird hack for ensuring event listener doesn't fire
