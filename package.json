@@ -6,6 +6,7 @@
   "browser": "dist/abacus.umd.js",
   "module": "dist/abacus.esm.js",
   "scripts": {
+    "precommit": "npm run build",
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "test": "echo \"Error: no test specified\" && exit 1"

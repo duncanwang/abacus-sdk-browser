@@ -53,7 +53,7 @@ class Abacus {
   closeModal(onClose) {
     const modal = document.getElementById(this.MODAL_ID);
     if (!modal) return;
-    modal.style.display = "none";
+    modal.parentNode.removeChild(modal);
     onClose();
   }
 
@@ -88,23 +88,18 @@ class Abacus {
       query.requireKYC = "true";
     }
 
-    var modal = document.getElementById(this.MODAL_ID);
-    if (!modal) {
-      modal = document.createElement("iframe");
-      modal.width = "100%";
-      modal.height = "100%";
-      modal.frameBorder = "0";
-      modal.style.position = "fixed";
-      modal.style.zIndex = "1337";
-      modal.id = this.MODAL_ID;
-      modal.style.left = "0";
-      modal.style.top = "0";
-      modal.style.overflow = "hidden";
-      document.body.appendChild(modal);
-    }
-    // reset the modal
+    const modal = document.createElement("iframe");
     modal.src = this._opts.portalURL + "/modal/login?" + qs.stringify(query);
-    OPTS.onOpen();
+    modal.width = "100%";
+    modal.height = "100%";
+    modal.frameBorder = "0";
+    modal.style.position = "fixed";
+    modal.style.zIndex = "1337";
+    modal.id = this.MODAL_ID;
+    modal.style.left = "0";
+    modal.style.top = "0";
+    modal.style.overflow = "hidden";
+    document.body.appendChild(modal);
     modal.style.display = "block";
 
     if (!this._exists) {
@@ -128,6 +123,7 @@ class Abacus {
     // weird hack for ensuring event listener doesn't fire
     setTimeout(function() {
       this._displaying = true;
+      OPTS.onOpen();
     }, 1);
     this._exists = true;
   }
