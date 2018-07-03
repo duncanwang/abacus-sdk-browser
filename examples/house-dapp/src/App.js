@@ -23,7 +23,7 @@ class App extends React.Component {
 
   async componentDidMount() {
     this.abacus = new Abacus({
-      portalURL: "http://identity.abacusprotocol.com",
+      portalURL: "https://identity-dev.abacusprotocol.com",
       applicationId: APP_ID,
       requireKYC: false
     });

@@ -22,7 +22,7 @@ class Abacus {
    *
    * @param {Object} params
    * @param {Object} params.authToken An auth token to use the API with, if it exists.
-   * @param {Object} params.applicationId The ID of your application. You can obtain this at https://identity.abacusprotocol.com/application/admin/create_application.
+   * @param {Object} params.applicationId The ID of your application. You can obtain this at https://identity-dev.abacusprotocol.com/application/admin/create_application.
    * @param {Object} params.portalURL The URL to the Abacus Portal dApp.
    * @param {Object} params.apiURL The URL to the Abacus API.
    */
@@ -30,7 +30,7 @@ class Abacus {
     if (!params.applicationId)
       throw new AbacusError("Please provide an application ID.");
     this._opts = {
-      portalURL: params.portalURL || "https://identity.abacusprotocol.com",
+      portalURL: params.portalURL || "https://identity-dev.abacusprotocol.com",
       apiURL: params.apiURL || "https://api.abacusprotocol.com",
       applicationId: params.applicationId
     };
