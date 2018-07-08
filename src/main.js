@@ -40,7 +40,9 @@ class Abacus {
     if (typeof window === "undefined") {
       this._authUser = params.authToken;
     } else {
-      this._authUser = params.authToken || window.localStorage.abacusUserToken;
+      this._authUser =
+        params.authToken || window.localStorage.abacusAccessToken;
+      this._authUserId = window.localStorage.abacusUserId;
     }
     this.baseURL = `${this._opts.apiURL}/api/v1`;
   }
@@ -63,11 +65,15 @@ class Abacus {
    * Opens the Abacus modal for login and (optionally) user verification.
    *
    * @param {Object} options
+   * @param {Array<String>} scope The OAuth scopes to authorize.
    * @param {function} onOpen Called when the modal is opened.
    * @param {function} onClose Called when the modal is closed.
    * @param {Boolean} runVerifications True if the modal should include the verifications flow for the application.
    */
   authorizeWithModal(options) {
+    if (!options.scope) {
+      throw new AbacusError("no scope");
+    }
     const OPTS = {
       onOpen:
         options && typeof options.onOpen === "function"
@@ -77,19 +83,28 @@ class Abacus {
         options && typeof options.onClose === "function"
           ? options.onClose
           : function() {},
+      onAuthorize:
+        options && typeof options.onAuthorize === "function"
+          ? options.onAuthorize
+          : function() {},
       runVerifications: !!options.runVerifications || false
     };
 
-    const query = {};
+    const genState = Math.floor(Math.random() * 100000000).toString();
+    const query = {
+      display_type: "modal",
+      state: genState,
+      scope: options.scope.join(",")
+    };
     if (this._opts.applicationId) {
-      query.application = this._opts.applicationId;
+      query.client_id = this._opts.applicationId;
     }
     if (OPTS.runVerifications) {
-      query.requireKYC = "true";
+      query.run_verifications = "true";
     }
 
     const modal = document.createElement("iframe");
-    modal.src = this._opts.portalURL + "/modal/login?" + qs.stringify(query);
+    modal.src = this._opts.portalURL + "/auth/login?" + qs.stringify(query);
     modal.width = "100%";
     modal.height = "100%";
     modal.frameBorder = "0";
@@ -108,14 +123,30 @@ class Abacus {
           this.closeModal(OPTS.onClose);
         }
       });
-      window.addEventListener("message", event => {
+      window.addEventListener("message", async event => {
+        if (event.data.name === "abacus_oauth") {
+          const { code, state, close } = event.data.payload;
+          if (close) {
+            this.closeModal(OPTS.onClose);
+          }
+          if (genState !== state) {
+            throw new AbacusError("invalid oauth state");
+          }
+          const { access_token } = await this._sendPostRequest(
+            "/auth/token?" +
+              qs.stringify({
+                grant_type: "authorization_code",
+                code: code,
+                client_id: this._opts.applicationId
+              })
+          );
+          window.localStorage.abacusAccessToken = access_token;
+          OPTS.onAuthorize({ accessToken: access_token });
+          return;
+        }
         if (event.data.name !== "abacus") return;
         if (event.data.payload === "modal_close") {
           this.closeModal(OPTS.onClose);
-        }
-        if (event.data.payload.appToken) {
-          this._authUser = event.data.payload.appToken;
-          window.localStorage.abacusUserToken = this._authUser;
         }
       });
     }
@@ -128,43 +159,26 @@ class Abacus {
     this._exists = true;
   }
 
-  async _sendRequest(url, data, mergeOpts = {}) {
+  async _sendRequest(url, mergeOpts = {}) {
     const res = await fetch(this.baseURL + url, {
       headers: {
         "content-type": "application/json",
-        Authorization: "Bearer " + this._authUser
+        Authorization: "Token " + this._authUser
       },
       ...mergeOpts
     });
     return await res.json();
   }
 
-  async _sendGetRequest(url, data) {
-    return await this._sendRequest(url, data);
+  async _sendGetRequest(url) {
+    return await this._sendRequest(url);
   }
 
   async _sendPostRequest(url, data) {
-    return await this._sendRequest(url, data, {
+    return await this._sendRequest(url, {
       method: "POST",
       body: JSON.stringify(data)
     });
-  }
-
-  readAuthToken() {
-    return parseJWT(this._authUser);
-  }
-
-  /**
-   * get information from jwt token
-   * @returns {Object} auth information
-   */
-  getAuthorizedUser() {
-    const { exp, address, applicationId } = this.readAuthToken();
-    return {
-      expires: exp,
-      address,
-      applicationId
-    };
   }
 
   /**
@@ -172,7 +186,8 @@ class Abacus {
    */
   deauthorize() {
     this._authUser = null;
-    window.localStorage.abacusUserToken = null;
+    window.localStorage.abacusAccessToken = null;
+    window.localStorage.abacusUserId = null;
   }
 
   /* USER METHODS */
