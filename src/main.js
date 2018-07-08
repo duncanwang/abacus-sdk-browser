@@ -132,7 +132,7 @@ class Abacus {
           if (genState !== state) {
             throw new AbacusError("invalid oauth state");
           }
-          const { access_token } = await this._sendPostRequest(
+          const { access_token, user_id } = await this._sendPostRequest(
             "/auth/token?" +
               qs.stringify({
                 grant_type: "authorization_code",
@@ -141,6 +141,9 @@ class Abacus {
               })
           );
           window.localStorage.abacusAccessToken = access_token;
+          this._authUser = access_token;
+          window.localStorage.abacusUserId = user_id;
+          this._authUserId = user_id;
           OPTS.onAuthorize({ accessToken: access_token });
           return;
         }
@@ -186,6 +189,7 @@ class Abacus {
    */
   deauthorize() {
     this._authUser = null;
+    this._authUserId = null;
     window.localStorage.abacusAccessToken = null;
     window.localStorage.abacusUserId = null;
   }
@@ -197,10 +201,9 @@ class Abacus {
    * @returns {Object} A map of verification type to status.
    */
   async fetchVerifications() {
-    const user = this.readAuthToken();
     return await this._sendGetRequest(
       `/applications/${this._opts.applicationId}/users/${
-        user.userId
+        this._authUserId
       }/verifications`
     );
   }
@@ -230,10 +233,9 @@ class Abacus {
    * @param {Object} data.private Key-value mapping of data to store off-chain.
    */
   async writeUserAnnotations(data) {
-    const user = this.readAuthToken();
     return await this._sendPostRequest(
       `/applications/${this._opts.applicationId}/users/${
-        user.userId
+        this._authUserId
       }/annotations`,
       data
     );
@@ -243,10 +245,9 @@ class Abacus {
    * Fetches a list of all annotations on the user.
    */
   async fetchUserAnnotations() {
-    const user = this.readAuthToken();
     return await this._sendGetRequest(
       `/applications/${this._opts.applicationId}/users/${
-        user.userId
+        this._authUserId
       }/annotations`
     );
   }
