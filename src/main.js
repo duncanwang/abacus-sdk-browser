@@ -30,8 +30,9 @@ class Abacus {
     if (!params.applicationId)
       throw new AbacusError("Please provide an application ID.");
     this._opts = {
-      portalURL: params.portalURL || "https://identity-dev.abacusprotocol.com",
-      apiURL: params.apiURL || "https://api.abacusprotocol.com",
+      portalURL:
+        params.portalURL || "https://identity-sandbox.abacusprotocol.com",
+      apiURL: params.apiURL || "https://api-sandbox.abacusprotocol.com",
       applicationId: params.applicationId
     };
     this.MODAL_ID = "abacusSDK";
