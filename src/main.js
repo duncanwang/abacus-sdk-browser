@@ -200,11 +200,9 @@ class Abacus {
    * Fetches a list of all identity verifications performed on the user.
    * @returns {Object} A map of verification type to status.
    */
-  async fetchVerifications() {
+  async fetchVerifications(address) {
     return await this._sendGetRequest(
-      `/applications/${this._opts.applicationId}/users/${
-        this._authUserId
-      }/verifications`
+      `/applications/${this._opts.applicationId}/users/${address}/verifications`
     );
   }
 
@@ -244,11 +242,9 @@ class Abacus {
   /**
    * Fetches a list of all annotations on the user.
    */
-  async fetchUserAnnotations() {
+  async fetchUserAnnotations(address) {
     return await this._sendGetRequest(
-      `/applications/${this._opts.applicationId}/users/${
-        this._authUserId
-      }/annotations`
+      `/applications/${this._opts.applicationId}/users/${address}/annotations`
     );
   }
 
