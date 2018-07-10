@@ -73,7 +73,7 @@ class Abacus {
    */
   authorizeWithModal(options) {
     if (!options.scope) {
-      options.scope = "all";
+      options.scope = ["all"];
     }
     const OPTS = {
       onOpen:
