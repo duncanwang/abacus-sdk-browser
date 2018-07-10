@@ -39,7 +39,16 @@ class Abacus {
     this._displaying = false;
     this._exists = false;
     if (typeof window === "undefined") {
-      this._authUser = params.authToken;
+      if (!params.apiKey) {
+        throw new AbacusError("Please provide an API key.");
+      }
+      if (!params.apiSecret) {
+        console.warn(
+          "Warning: no API secret provided. You should do this to prevent others from performing requests in your name."
+        );
+      }
+      this._authUser = params.apiKey;
+      this._apiSecret = params.apiSecret;
     } else {
       this._authUser =
         params.authToken || window.localStorage.abacusAccessToken;
