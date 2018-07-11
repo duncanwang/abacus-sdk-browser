@@ -103,7 +103,7 @@ class Abacus {
     localStorage.genState = Math.floor(Math.random() * 100000000).toString();
     const query = {
       display_type: "modal",
-      state: genState,
+      state: localStorage.genState,
       scope: options.scope.join(",")
     };
     if (this._opts.applicationId) {
