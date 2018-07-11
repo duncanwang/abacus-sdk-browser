@@ -1,6 +1,6 @@
 {
   "name": "@abacusprotocol/client-sdk",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Library to integrate Abacus SDK.",
   "main": "dist/abacus.cjs.js",
   "browser": "dist/abacus.umd.js",
