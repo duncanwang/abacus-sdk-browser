@@ -100,7 +100,7 @@ class Abacus {
       runVerifications: !!options.runVerifications || false
     };
 
-    const genState = Math.floor(Math.random() * 100000000).toString();
+    localStorage.genState = Math.floor(Math.random() * 100000000).toString();
     const query = {
       display_type: "modal",
       state: genState,
@@ -139,7 +139,7 @@ class Abacus {
           if (close) {
             this.closeModal(OPTS.onClose);
           }
-          if (genState !== state) {
+          if (localStorage.genState != state) {
             throw new AbacusError("invalid oauth state");
           }
           const { access_token, user_id } = await this._sendPostRequest(
