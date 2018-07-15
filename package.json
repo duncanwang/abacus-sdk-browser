@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/abacusprotocol/client-sdk#readme",
   "dependencies": {
-    "@abacusprotocol/sdk-js": "^0.1.6",
+    "@abacusprotocol/sdk-js": "^0.1.8",
     "@babel/polyfill": "^7.0.0-beta.51",
     "isomorphic-unfetch": "^2.0.0",
     "qs": "^6.5.2"

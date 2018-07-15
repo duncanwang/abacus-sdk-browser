@@ -1,17 +1,12 @@
 import "@babel/polyfill";
-import fetch from "isomorphic-unfetch";
 import * as qs from "qs";
-import JavascriptSDK from "@abacusprotocol/sdk-js";
+import JavascriptSDK, { AbacusDataPayload } from "@abacusprotocol/sdk-js";
+const fetch = require("isomorphic-unfetch");
 
-const AbacusError = (message, name = null)=> {
+const AbacusError = (message: string, name?: string)=> {
   var instance = new Error("Abacus Error:" + message);
   instance.name = name || instance.name;
   return instance;
-};
-
-const parseJWT = token => {
-  if (typeof token !== "string") return null;
-  return JSON.parse(atob(token.split(".")[1]));
 };
 
 /**
@@ -23,8 +18,11 @@ class BrowserSDK extends JavascriptSDK {
   _applicationId: string | null;
   _displaying: boolean;
   _exists: boolean;
+  _authUser: string | null;
+  _authUserId: string | null;
+  baseURL: string;
 
-  readonly MODAL_ID = "abacusSDK";
+  static readonly MODAL_ID = "abacusSDK";
 
   /**
    * Instantiates the Abacus SDK.
@@ -39,19 +37,19 @@ class BrowserSDK extends JavascriptSDK {
     apiURL?: string;
     applicationId?: string;
     portalHost?: string;
-    oathToken?: string;
+    oauthToken?: string;
   }) {
     super({
       apiURL: params.apiURL,
       applicationId: params.applicationId,
-      authToken: params.oathToken
+      authToken: params.oauthToken
     });
 
     this._portalHost = params.portalHost || "https://identity-sandbox.abacusprotocol.com"
     this._displaying = false;
     this._exists = false;
 
-    this._authUser = params.authToken || window.localStorage.abacusAccessToken;
+    this._authUser = params.oauthToken || window.localStorage.abacusAccessToken;
     this._authUserId = window.localStorage.abacusUserId;
     this.baseURL = `${this._apiHost}/api/v1`;
   }
@@ -61,9 +59,9 @@ class BrowserSDK extends JavascriptSDK {
    *
    * @param {function} onClose Called if and when the modal is closed.
    */
-  closeModal(onClose) {
-    const modal = document.getElementById(this.MODAL_ID);
-    if (!modal) return;
+  closeModal(onClose: () => void) {
+    const modal = document.getElementById(BrowserSDK.MODAL_ID);
+    if (!modal || !modal.parentNode) return;
     modal.parentNode.removeChild(modal);
     onClose();
   }
@@ -77,9 +75,16 @@ class BrowserSDK extends JavascriptSDK {
    * @param {Array<String>} scope The OAuth scopes to authorize.
    * @param {function} onOpen Called when the modal is opened.
    * @param {function} onClose Called when the modal is closed.
+   * @param {function} onClose Called when the modal is closed.
    * @param {Boolean} runVerifications True if the modal should include the verifications flow for the application.
    */
-  authorizeWithModal(options) {
+  authorizeWithModal(options: {
+    scope?: string[],
+    onOpen?: () => void,
+    onClose?: () => void,
+    onAuthorize?: (i: { accessToken: string }) => void,
+    runVerifications?: boolean
+  }) {
     if (!options.scope) {
       options.scope = ["all"];
     }
@@ -100,7 +105,13 @@ class BrowserSDK extends JavascriptSDK {
     };
 
     localStorage.genState = Math.floor(Math.random() * 100000000).toString();
-    const query = {
+    const query: {
+      display_type: string;
+      state: string;
+      scope: string;
+      client_id?: string;
+      run_verifications?: string;
+    } = {
       display_type: "modal",
       state: localStorage.genState,
       scope: options.scope.join(",")
@@ -119,7 +130,7 @@ class BrowserSDK extends JavascriptSDK {
     modal.frameBorder = "0";
     modal.style.position = "fixed";
     modal.style.zIndex = "1337";
-    modal.id = this.MODAL_ID;
+    modal.id = BrowserSDK.MODAL_ID;
     modal.style.left = "0";
     modal.style.top = "0";
     modal.style.overflow = "hidden";
@@ -164,14 +175,14 @@ class BrowserSDK extends JavascriptSDK {
     }
 
     // weird hack for ensuring event listener doesn't fire
-    setTimeout(function() {
+    setTimeout(() => {
       this._displaying = true;
       OPTS.onOpen();
     }, 1);
     this._exists = true;
   }
 
-  async _sendRequest(url, mergeOpts = {}) {
+  async _sendRequest(url: string, mergeOpts = {}) {
     const res = await fetch(this.baseURL + url, {
       headers: {
         "content-type": "application/json",
@@ -182,11 +193,11 @@ class BrowserSDK extends JavascriptSDK {
     return await res.json();
   }
 
-  async _sendGetRequest(url) {
+  async _sendGetRequest(url: string) {
     return await this._sendRequest(url);
   }
 
-  async _sendPostRequest(url, data = undefined) {
+  async _sendPostRequest(url: string, data?: any) {
     return await this._sendRequest(url, {
       method: "POST",
       body: JSON.stringify(data)
@@ -223,11 +234,14 @@ class BrowserSDK extends JavascriptSDK {
    * @param {Object} address The address of the token.
    * @param {Object} tokenId The id of the token.
    */
-  getTokenURI({ address, tokenId }) {
+  getTokenURI(params: {
+    address: string;
+    tokenId: string;
+   }) {
     return;
     `${this.baseURL}/applications/${
       this._applicationId
-    }/tokens/${address}/${tokenId}/metadata`;
+    }/tokens/${params.address}/${params.tokenId}/metadata`;
   }
 
   /* ANNOTATION METHODS */
@@ -241,7 +255,7 @@ class BrowserSDK extends JavascriptSDK {
    * @param {Object} data.ethereum.bytes Key-value mapping of bytes data to store on-chain. The key can be any string, and the value must be a hex-encoded string.
    * @param {Object} data.private Key-value mapping of data to store off-chain.
    */
-  async writeUserAnnotations(data) {
+  async writeUserAnnotations(data: AbacusDataPayload) {
     return await this._sendPostRequest(
       `/applications/${this._applicationId}/users/${
         this._authUserId
@@ -272,12 +286,12 @@ class BrowserSDK extends JavascriptSDK {
    * @param {Object} data.ethereum.bytes Key-value mapping of bytes data to store on-chain. The key can be any string, and the value must be a hex-encoded string.
    * @param {Object} data.private Key-value mapping of data to store off-chain.
    */
-  async writeTokenAnnotations({ address, tokenId, data }) {
+  async writeTokenAnnotations(params: { address: string, tokenId: string, data: AbacusDataPayload }) {
     return await this._sendPostRequest(
       `/applications/${
         this._applicationId
-      }/tokens/${address}/${tokenId}/annotations`,
-      data
+      }/tokens/${params.address}/${params.tokenId}/annotations`,
+      params.data
     );
   }
 
@@ -287,11 +301,14 @@ class BrowserSDK extends JavascriptSDK {
    * @param {Object} address The address of the token.
    * @param {Object} tokenId The id of the token.
    */
-  async fetchTokenAnnotations({ address, tokenId }) {
+  async fetchTokenAnnotations(params: {
+    address: string;
+    tokenId: string;
+  }) {
     return await this._sendGetRequest(
       `/applications/${
         this._applicationId
-      }/tokens/${address}/${tokenId}/annotations`
+      }/tokens/${params.address}/${params.tokenId}/annotations`
     );
   }
 }
