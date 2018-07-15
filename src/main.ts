@@ -1,7 +1,6 @@
 import "@babel/polyfill";
 import * as qs from "qs";
 import JavascriptSDK, { AbacusDataPayload } from "@abacusprotocol/sdk-js";
-const fetch = require("isomorphic-unfetch");
 
 const AbacusError = (message: string, name?: string)=> {
   var instance = new Error("Abacus Error:" + message);
@@ -14,15 +13,13 @@ const AbacusError = (message: string, name?: string)=> {
  */
 class BrowserSDK extends JavascriptSDK {
   _portalHost: string;
-  _apiHost: string;
-  _applicationId: string | null;
   _displaying: boolean;
   _exists: boolean;
   _authUser: string | null;
   _authUserId: string | null;
   baseURL: string;
 
-  static readonly MODAL_ID = "abacusSDK";
+  private static readonly MODAL_ID = "abacusSDK";
 
   /**
    * Instantiates the Abacus SDK.
@@ -51,7 +48,7 @@ class BrowserSDK extends JavascriptSDK {
 
     this._authUser = params.oauthToken || window.localStorage.abacusAccessToken;
     this._authUserId = window.localStorage.abacusUserId;
-    this.baseURL = `${this._apiHost}/api/v1`;
+    this.baseURL = `${this._apiURL}/api/v1`;
   }
 
   /**
@@ -180,28 +177,6 @@ class BrowserSDK extends JavascriptSDK {
       OPTS.onOpen();
     }, 1);
     this._exists = true;
-  }
-
-  async _sendRequest(url: string, mergeOpts = {}) {
-    const res = await fetch(this.baseURL + url, {
-      headers: {
-        "content-type": "application/json",
-        Authorization: "Token " + this._authUser
-      },
-      ...mergeOpts
-    });
-    return await res.json();
-  }
-
-  async _sendGetRequest(url: string) {
-    return await this._sendRequest(url);
-  }
-
-  async _sendPostRequest(url: string, data?: any) {
-    return await this._sendRequest(url, {
-      method: "POST",
-      body: JSON.stringify(data)
-    });
   }
 
   /**
