@@ -2,8 +2,8 @@ import "@babel/polyfill";
 import fetch from "isomorphic-unfetch";
 import * as qs from "qs";
 
-const AbacusError = (message, name) => {
-  var instance = new Error("Abacus Err:" + message);
+const AbacusError = (message, name = null)=> {
+  var instance = new Error("Abacus Error:" + message);
   instance.name = name || instance.name;
   return instance;
 };
@@ -17,30 +17,38 @@ const parseJWT = token => {
  * Abacus SDK main class.
  */
 class Abacus {
+  _portalHost: string;
+  _apiHost: string;
+  _applicationId: string | null;
+  _displaying: boolean;
+  _exists: boolean;
+
+  MODAL_ID: string;
+
   /**
    * Instantiates the Abacus SDK.
    *
    * @param {Object} params
    * @param {Object} params.authToken An auth token to use the API with, if it exists.
    * @param {Object} params.applicationId The ID of your application. You can obtain this at https://identity-dev.abacusprotocol.com/application/admin/create_application.
-   * @param {Object} params.portalURL The URL to the Abacus Portal dApp.
-   * @param {Object} params.apiURL The URL to the Abacus API.
+   * @param {Object} params.portalHost The host url of the Abacus Portal dApp.
+   * @param {Object} params.apiHost The host url of the Abacus API.
    */
   constructor(params) {
     if (!params.applicationId)
-      throw new AbacusError("Please provide an application ID.");
-    this._opts = {
-      portalURL:
-        params.portalURL || "https://identity-sandbox.abacusprotocol.com",
-      apiURL: params.apiURL || "https://api-sandbox.abacusprotocol.com",
-      applicationId: params.applicationId
-    };
-    this.MODAL_ID = "abacusSDK";
+      throw AbacusError("Application ID is required ");
+
+    this._portalHost = params.portalHost || "https://identity-sandbox.abacusprotocol.com"
+    this._apiHost = params.apiHost || "https://api-sandbox.abacusprotocol.com"
+    this._applicationId = params.applicationId
     this._displaying = false;
     this._exists = false;
+
+    this.MODAL_ID= "abacusSDK";
+
     if (typeof window === "undefined") {
       if (!params.apiKey) {
-        throw new AbacusError("Please provide an API key.");
+        throw AbacusError("Please provide an API key.");
       }
       if (!params.apiSecret) {
         console.warn(
@@ -54,7 +62,7 @@ class Abacus {
         params.authToken || window.localStorage.abacusAccessToken;
       this._authUserId = window.localStorage.abacusUserId;
     }
-    this.baseURL = `${this._opts.apiURL}/api/v1`;
+    this.baseURL = `${this._apiHost}/api/v1`;
   }
 
   /**
@@ -106,15 +114,15 @@ class Abacus {
       state: localStorage.genState,
       scope: options.scope.join(",")
     };
-    if (this._opts.applicationId) {
-      query.client_id = this._opts.applicationId;
+    if (this._applicationId) {
+      query.client_id = this._applicationId;
     }
     if (OPTS.runVerifications) {
       query.run_verifications = "true";
     }
 
     const modal = document.createElement("iframe");
-    modal.src = this._opts.portalURL + "/auth/login?" + qs.stringify(query);
+    modal.src = this._portalHost + "/auth/login?" + qs.stringify(query);
     modal.width = "100%";
     modal.height = "100%";
     modal.frameBorder = "0";
@@ -140,14 +148,14 @@ class Abacus {
             this.closeModal(OPTS.onClose);
           }
           if (localStorage.genState != state) {
-            throw new AbacusError("invalid oauth state");
+            throw AbacusError("invalid oauth state");
           }
           const { access_token, user_id } = await this._sendPostRequest(
             "/auth/token?" +
               qs.stringify({
                 grant_type: "authorization_code",
                 code: code,
-                client_id: this._opts.applicationId
+                client_id: this._applicationId
               })
           );
           window.localStorage.abacusAccessToken = access_token;
@@ -187,7 +195,7 @@ class Abacus {
     return await this._sendRequest(url);
   }
 
-  async _sendPostRequest(url, data) {
+  async _sendPostRequest(url, data = undefined) {
     return await this._sendRequest(url, {
       method: "POST",
       body: JSON.stringify(data)
@@ -212,7 +220,7 @@ class Abacus {
    */
   async fetchVerifications() {
     return await this._sendGetRequest(
-      `/applications/${this._opts.applicationId}/users/${
+      `/applications/${this._applicationId}/users/${
         this._authUserId
       }/verifications`
     );
@@ -227,7 +235,7 @@ class Abacus {
   getTokenURI({ address, tokenId }) {
     return;
     `${this.baseURL}/applications/${
-      this._opts.applicationId
+      this._applicationId
     }/tokens/${address}/${tokenId}/metadata`;
   }
 
@@ -244,7 +252,7 @@ class Abacus {
    */
   async writeUserAnnotations(data) {
     return await this._sendPostRequest(
-      `/applications/${this._opts.applicationId}/users/${
+      `/applications/${this._applicationId}/users/${
         this._authUserId
       }/annotations`,
       data
@@ -256,7 +264,7 @@ class Abacus {
    */
   async fetchUserAnnotations() {
     return await this._sendGetRequest(
-      `/applications/${this._opts.applicationId}/users/${
+      `/applications/${this._applicationId}/users/${
         this._authUserId
       }/annotations`
     );
@@ -276,7 +284,7 @@ class Abacus {
   async writeTokenAnnotations({ address, tokenId, data }) {
     return await this._sendPostRequest(
       `/applications/${
-        this._opts.applicationId
+        this._applicationId
       }/tokens/${address}/${tokenId}/annotations`,
       data
     );
@@ -291,7 +299,7 @@ class Abacus {
   async fetchTokenAnnotations({ address, tokenId }) {
     return await this._sendGetRequest(
       `/applications/${
-        this._opts.applicationId
+        this._applicationId
       }/tokens/${address}/${tokenId}/annotations`
     );
   }

@@ -7,7 +7,7 @@ import pkg from "./package.json";
 export default [
   // browser-friendly UMD build
   {
-    input: "src/main.js",
+    input: "src/main.ts",
     output: {
       name: "abacus",
       file: pkg.browser,
@@ -16,7 +16,7 @@ export default [
     plugins: [
       babel({
         exclude: "node_modules/**",
-        presets: [["@babel/preset-env", { modules: false }]]
+        presets: [["@babel/preset-env", { modules: false }], "@babel/preset-typescript"]
       }),
       json(),
       resolve(), // so Rollup can find `ms`
@@ -31,8 +31,14 @@ export default [
   // an array for the `output` option, where we can specify
   // `file` and `format` for each target)
   {
-    input: "src/main.js",
+    input: "src/main.ts",
     external: ["ms"],
+    plugins: [
+      babel({
+        exclude: "node_modules/**",
+        presets: [["@babel/preset-env", { modules: false }], "@babel/preset-typescript"]
+      })
+    ],
     output: [
       { file: pkg.main, format: "cjs" },
       { file: pkg.module, format: "es" }
