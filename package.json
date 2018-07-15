@@ -6,7 +6,6 @@
   "browser": "dist/abacus.umd.js",
   "module": "dist/abacus.esm.js",
   "scripts": {
-    "precommit": "npm run build",
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -33,11 +32,18 @@
     "@babel/preset-env": "^7.0.0-beta.51",
     "@babel/preset-typescript": "^7.0.0-beta.53",
     "@types/qs": "^6.5.1",
+    "husky": "^0.14.3",
+    "pretty-quick": "^1.6.0",
     "rollup": "^0.61.2",
     "rollup-plugin-commonjs": "^9.1.3",
     "rollup-plugin-json": "^3.0.0",
     "rollup-plugin-node-resolve": "^3.3.0",
     "rollup-plugin-typescript2": "^0.15.1",
     "typescript": "^2.9.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }
