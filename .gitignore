@@ -66,3 +66,7 @@ typings/
 # End of https://www.gitignore.io/api/node
 
 dist/
+
+# Rollup Typescript 2 Plugin
+
+.rpt2_cache/

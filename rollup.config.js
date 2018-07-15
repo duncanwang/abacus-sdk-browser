@@ -1,7 +1,7 @@
-import resolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import json from "rollup-plugin-json";
-import babel from "rollup-plugin-babel";
+import typescript from "rollup-plugin-typescript2";
+import resolve from "rollup-plugin-node-resolve";
 import pkg from "./package.json";
 
 export default [
@@ -14,10 +14,7 @@ export default [
       format: "umd"
     },
     plugins: [
-      babel({
-        exclude: "node_modules/**",
-        presets: [["@babel/preset-env", { modules: false }], "@babel/preset-typescript"]
-      }),
+      typescript(),
       json(),
       resolve(), // so Rollup can find `ms`
       commonjs() // so Rollup can convert `ms` to an ES module
@@ -34,10 +31,7 @@ export default [
     input: "src/main.ts",
     external: ["ms"],
     plugins: [
-      babel({
-        exclude: "node_modules/**",
-        presets: [["@babel/preset-env", { modules: false }], "@babel/preset-typescript"]
-      })
+      typescript()
     ],
     output: [
       { file: pkg.main, format: "cjs" },

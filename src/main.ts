@@ -1,6 +1,7 @@
 import "@babel/polyfill";
 import fetch from "isomorphic-unfetch";
 import * as qs from "qs";
+import JavascriptSDK from "@abacusprotocol/sdk-js";
 
 const AbacusError = (message, name = null)=> {
   var instance = new Error("Abacus Error:" + message);
@@ -16,52 +17,42 @@ const parseJWT = token => {
 /**
  * Abacus SDK main class.
  */
-class Abacus {
+class BrowserSDK extends JavascriptSDK {
   _portalHost: string;
   _apiHost: string;
   _applicationId: string | null;
   _displaying: boolean;
   _exists: boolean;
 
-  MODAL_ID: string;
+  readonly MODAL_ID = "abacusSDK";
 
   /**
    * Instantiates the Abacus SDK.
    *
    * @param {Object} params
-   * @param {Object} params.authToken An auth token to use the API with, if it exists.
-   * @param {Object} params.applicationId The ID of your application. You can obtain this at https://identity-dev.abacusprotocol.com/application/admin/create_application.
+   * @param {Object} params.apiURL The host url of the Abacus API.
+   * @param {Object} params.applicationId The ID of your application. You can obtain this at https://identity-sandbox.abacusprotocol.com/application/admin/create_application.
    * @param {Object} params.portalHost The host url of the Abacus Portal dApp.
-   * @param {Object} params.apiHost The host url of the Abacus API.
+   * @param {Object} params.oathToken The oath authentication token to use for requests.
    */
-  constructor(params) {
-    if (!params.applicationId)
-      throw AbacusError("Application ID is required ");
+  constructor(params: {
+    apiURL?: string;
+    applicationId?: string;
+    portalHost?: string;
+    oathToken?: string;
+  }) {
+    super({
+      apiURL: params.apiURL,
+      applicationId: params.applicationId,
+      authToken: params.oathToken
+    });
 
     this._portalHost = params.portalHost || "https://identity-sandbox.abacusprotocol.com"
-    this._apiHost = params.apiHost || "https://api-sandbox.abacusprotocol.com"
-    this._applicationId = params.applicationId
     this._displaying = false;
     this._exists = false;
 
-    this.MODAL_ID= "abacusSDK";
-
-    if (typeof window === "undefined") {
-      if (!params.apiKey) {
-        throw AbacusError("Please provide an API key.");
-      }
-      if (!params.apiSecret) {
-        console.warn(
-          "Warning: no API secret provided. You should do this to prevent others from performing requests in your name."
-        );
-      }
-      this._authUser = params.apiKey;
-      this._apiSecret = params.apiSecret;
-    } else {
-      this._authUser =
-        params.authToken || window.localStorage.abacusAccessToken;
-      this._authUserId = window.localStorage.abacusUserId;
-    }
+    this._authUser = params.authToken || window.localStorage.abacusAccessToken;
+    this._authUserId = window.localStorage.abacusUserId;
     this.baseURL = `${this._apiHost}/api/v1`;
   }
 
@@ -305,4 +296,4 @@ class Abacus {
   }
 }
 
-export default Abacus;
+export default BrowserSDK;
