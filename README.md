@@ -1,17 +1,15 @@
-# client-sdk
+# Abacus Browser SDK
 
-[![NPM](https://img.shields.io/npm/v/@abacusprotocol/client-sdk.svg)](https://www.npmjs.com/package/@abacusprotocol/client-sdk)
+[![NPM](https://img.shields.io/npm/v/@abacusprotocol/sdk-browser.svg)](https://www.npmjs.com/package/@abacusprotocol/sdk-browser)
 
-The Abacus Client SDK.
-
-Full documentation is available on the [Abacus Client SDK Docs](https://docs.abacusprotocol.com).
+Full documentation is available on the [Abacus Docs](https://docs.abacusprotocol.com).
 
 ## Installing
 
 ```bash
-yarn add @abacusprotocol/client-sdk
+yarn add @abacusprotocol/sdk-browser
 
 # OR
 
-npm install --save @abacusprotocol/client-sdk
+npm install --save @abacusprotocol/sdk-browser
 ```
