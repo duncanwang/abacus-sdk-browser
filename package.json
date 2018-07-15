@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/abacusprotocol/client-sdk.git"
+    "url": "git+https://github.com/abacusprotocol/abacus-sdk-browser.git"
   },
   "author": "Abacus Protocol <team@abacusprotocol.com>",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/abacusprotocol/client-sdk/issues"
+    "url": "https://github.com/abacusprotocol/abacus-sdk-browser/issues"
   },
-  "homepage": "https://github.com/abacusprotocol/client-sdk#readme",
+  "homepage": "https://github.com/abacusprotocol/abacus-sdk-browser#readme",
   "dependencies": {
     "@abacusprotocol/sdk-js": "^0.1.8",
     "@babel/polyfill": "^7.0.0-beta.51",
