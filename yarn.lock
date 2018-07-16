@@ -3,8 +3,8 @@
 
 
 "@abacusprotocol/sdk-js@^0.1.8":
-  version "0.1.12"
-  resolved "https://registry.yarnpkg.com/@abacusprotocol/sdk-js/-/sdk-js-0.1.12.tgz#fc215090710441304e8acebaa16c91165898aacb"
+  version "0.1.13"
+  resolved "https://registry.yarnpkg.com/@abacusprotocol/sdk-js/-/sdk-js-0.1.13.tgz#7c3bbe44dc66b17cd10e19fe230f6789f70b036d"
   dependencies:
     isomorphic-unfetch "^2.0.0"
 
