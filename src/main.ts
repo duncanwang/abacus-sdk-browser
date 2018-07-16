@@ -1,15 +1,18 @@
 import "@babel/polyfill";
 import * as qs from "qs";
-import JavascriptSDK, { AbacusDataPayload } from "@abacusprotocol/sdk-js";
+import JavascriptSDK, {
+  AbacusAnnotations,
+  toUserId
+} from "@abacusprotocol/sdk-js";
 
-const AbacusError = (message: string, name?: string)=> {
+export const AbacusError = (message: string, name?: string) => {
   var instance = new Error("Abacus Error:" + message);
   instance.name = name || instance.name;
   return instance;
 };
 
 /**
- * Abacus SDK main class.
+ * Abacus Browser SDK
  */
 class BrowserSDK extends JavascriptSDK {
   _portalHost: string;
@@ -42,7 +45,8 @@ class BrowserSDK extends JavascriptSDK {
       authToken: params.oauthToken
     });
 
-    this._portalHost = params.portalHost || "https://identity-sandbox.abacusprotocol.com"
+    this._portalHost =
+      params.portalHost || "https://identity-sandbox.abacusprotocol.com";
     this._displaying = false;
     this._exists = false;
 
@@ -72,15 +76,15 @@ class BrowserSDK extends JavascriptSDK {
    * @param {Array<String>} scope The OAuth scopes to authorize.
    * @param {function} onOpen Called when the modal is opened.
    * @param {function} onClose Called when the modal is closed.
-   * @param {function} onClose Called when the modal is closed.
+   * @param {function} onAuthorize Called when the user is authorized.
    * @param {Boolean} runVerifications True if the modal should include the verifications flow for the application.
    */
   authorizeWithModal(options: {
-    scope?: string[],
-    onOpen?: () => void,
-    onClose?: () => void,
-    onAuthorize?: (i: { accessToken: string }) => void,
-    runVerifications?: boolean
+    scope?: string[];
+    onOpen?: () => void;
+    onClose?: () => void;
+    onAuthorize?: (i: { accessToken: string }) => void;
+    runVerifications?: boolean;
   }) {
     if (!options.scope) {
       options.scope = ["all"];
@@ -195,28 +199,16 @@ class BrowserSDK extends JavascriptSDK {
    * Fetches a list of all identity verifications performed on the user.
    * @returns {Object} A map of verification type to status.
    */
-  async fetchVerifications() {
-    return await this._sendGetRequest(
-      `/applications/${this._applicationId}/users/${
-        this._authUserId
-      }/verifications`
-    );
-  }
+  async fetchUserVerifications() {
+    if (!this._authUserId)
+      throw AbacusError(
+        "Cannot fetch user verifications without being logged in."
+      );
 
-  /**
-   * Gets the URI for token metadata.
-   *
-   * @param {Object} address The address of the token.
-   * @param {Object} tokenId The id of the token.
-   */
-  getTokenURI(params: {
-    address: string;
-    tokenId: string;
-   }) {
-    return;
-    `${this.baseURL}/applications/${
-      this._applicationId
-    }/tokens/${params.address}/${params.tokenId}/metadata`;
+    return await this.fetchVerifications({
+      applicationId: this._applicationId,
+      userId: this._authUserId
+    });
   }
 
   /* ANNOTATION METHODS */
@@ -230,61 +222,32 @@ class BrowserSDK extends JavascriptSDK {
    * @param {Object} data.ethereum.bytes Key-value mapping of bytes data to store on-chain. The key can be any string, and the value must be a hex-encoded string.
    * @param {Object} data.private Key-value mapping of data to store off-chain.
    */
-  async writeUserAnnotations(data: AbacusDataPayload) {
-    return await this._sendPostRequest(
-      `/applications/${this._applicationId}/users/${
-        this._authUserId
-      }/annotations`,
-      data
-    );
+  async writeUserAnnotations(data: AbacusAnnotations) {
+    if (!this._authUserId)
+      throw AbacusError(
+        "Cannot write user annotations without being logged in."
+      );
+
+    return await this.writeAnnotations({
+      applicationId: this._applicationId,
+      entityId: toUserId(this._authUserId),
+      annotations: data
+    });
   }
 
   /**
    * Fetches a list of all annotations on the user.
    */
   async fetchUserAnnotations() {
-    return await this._sendGetRequest(
-      `/applications/${this._applicationId}/users/${
-        this._authUserId
-      }/annotations`
-    );
-  }
+    if (!this._authUserId)
+      throw AbacusError(
+        "Cannot fetch user annotations without being logged in."
+      );
 
-  /**
-   * Writes annotations for a specific token.
-   *
-   * @param {Object} address The address of the token.
-   * @param {Object} tokenId The id of the token.
-   * @param {Object} data
-   * @param {Object} data.ethereum
-   * @param {Object} data.ethereum.bytes32 Key-value mapping of bytes32 data to store on-chain. The key can be any string, and the value must be a hex-encoded string.
-   * @param {Object} data.ethereum.bytes Key-value mapping of bytes data to store on-chain. The key can be any string, and the value must be a hex-encoded string.
-   * @param {Object} data.private Key-value mapping of data to store off-chain.
-   */
-  async writeTokenAnnotations(params: { address: string, tokenId: string, data: AbacusDataPayload }) {
-    return await this._sendPostRequest(
-      `/applications/${
-        this._applicationId
-      }/tokens/${params.address}/${params.tokenId}/annotations`,
-      params.data
-    );
-  }
-
-  /**
-   * Fetches a list of all annotations on a specific token.
-   *
-   * @param {Object} address The address of the token.
-   * @param {Object} tokenId The id of the token.
-   */
-  async fetchTokenAnnotations(params: {
-    address: string;
-    tokenId: string;
-  }) {
-    return await this._sendGetRequest(
-      `/applications/${
-        this._applicationId
-      }/tokens/${params.address}/${params.tokenId}/annotations`
-    );
+    return this.fetchAnnotations({
+      applicationId: this._applicationId,
+      entityId: toUserId(this._authUserId)
+    });
   }
 }
 
