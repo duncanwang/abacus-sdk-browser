@@ -114,12 +114,11 @@ class BrowserSDK extends JavascriptSDK {
       scope: string;
       client_id?: string;
       run_verifications?: string;
-    } & { [key:string]: any } = {
-      ...OPTS.query,
+    } & { [key: string]: any } = Object.assign(OPTS.query, {
       display_type: "modal",
       state: localStorage.genState,
       scope: options.scope.join(",")
-    };
+    });
     if (this._applicationId) {
       query.client_id = this._applicationId;
     }
