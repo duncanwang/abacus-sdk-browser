@@ -85,6 +85,7 @@ class BrowserSDK extends JavascriptSDK {
     onClose?: () => void;
     onAuthorize?: (i: { accessToken: string }) => void;
     runVerifications?: boolean;
+    query: object;
   }) {
     if (!options.scope) {
       options.scope = ["all"];
@@ -102,7 +103,8 @@ class BrowserSDK extends JavascriptSDK {
         options && typeof options.onAuthorize === "function"
           ? options.onAuthorize
           : function() {},
-      runVerifications: !!options.runVerifications || false
+      runVerifications: !!options.runVerifications || false,
+      query: options.query || {}
     };
 
     localStorage.genState = Math.floor(Math.random() * 100000000).toString();
@@ -112,7 +114,8 @@ class BrowserSDK extends JavascriptSDK {
       scope: string;
       client_id?: string;
       run_verifications?: string;
-    } = {
+    } & { [key:string]: any } = {
+      ...OPTS.query,
       display_type: "modal",
       state: localStorage.genState,
       scope: options.scope.join(",")
