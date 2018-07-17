@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@abacusprotocol/sdk-js@^0.1.8":
-  version "0.1.13"
-  resolved "https://registry.yarnpkg.com/@abacusprotocol/sdk-js/-/sdk-js-0.1.13.tgz#7c3bbe44dc66b17cd10e19fe230f6789f70b036d"
+"@abacusprotocol/sdk-js@^0.1.15":
+  version "0.1.15"
+  resolved "https://registry.yarnpkg.com/@abacusprotocol/sdk-js/-/sdk-js-0.1.15.tgz#503a909605133f9e2ffb30e97a37583d96d0f26b"
   dependencies:
     isomorphic-unfetch "^2.0.0"
 
