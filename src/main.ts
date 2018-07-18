@@ -15,7 +15,7 @@ export const AbacusError = (message: string, name?: string) => {
  * Abacus Browser SDK
  */
 class BrowserSDK extends JavascriptSDK {
-  _portalHost: string;
+  _portalURL: string;
   _displaying: boolean;
   _exists: boolean;
   _authUser: string | null;
@@ -30,13 +30,13 @@ class BrowserSDK extends JavascriptSDK {
    * @param {Object} params
    * @param {Object} params.apiURL The host url of the Abacus API.
    * @param {Object} params.applicationId The ID of your application. You can obtain this at https://identity-sandbox.abacusprotocol.com/application/admin/create_application.
-   * @param {Object} params.portalHost The host url of the Abacus Portal dApp.
+   * @param {Object} params.portalURL The host url of the Abacus Portal dApp.
    * @param {Object} params.oathToken The oath authentication token to use for requests.
    */
   constructor(params: {
     apiURL?: string;
     applicationId?: string;
-    portalHost?: string;
+    portalURL?: string;
     oauthToken?: string;
   }) {
     super({
@@ -45,8 +45,8 @@ class BrowserSDK extends JavascriptSDK {
       authToken: params.oauthToken
     });
 
-    this._portalHost =
-      params.portalHost || "https://identity-sandbox.abacusprotocol.com";
+    this._portalURL =
+      params.portalURL || "https://identity-sandbox.abacusprotocol.com";
     this._displaying = false;
     this._exists = false;
 
@@ -127,7 +127,7 @@ class BrowserSDK extends JavascriptSDK {
     }
 
     const modal = document.createElement("iframe");
-    modal.src = this._portalHost + "/auth/login?" + qs.stringify(query);
+    modal.src = this._portalURL + "/auth/login?" + qs.stringify(query);
     modal.width = "100%";
     modal.height = "100%";
     modal.frameBorder = "0";
