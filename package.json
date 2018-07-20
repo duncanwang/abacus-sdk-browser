@@ -1,6 +1,6 @@
 {
   "name": "@abacusprotocol/sdk-browser",
-  "version": "0.2.12",
+  "version": "0.2.13",
   "description": "Abacus Browser SDK",
   "main": "dist/abacus.cjs.js",
   "browser": "dist/abacus.umd.js",
@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/abacusprotocol/abacus-sdk-browser#readme",
   "dependencies": {
-    "@abacusprotocol/sdk-js": "^0.1.15",
+    "@abacusprotocol/sdk-js": "^0.1.16",
     "@babel/polyfill": "^7.0.0-beta.51",
     "qs": "^6.5.2"
   },
