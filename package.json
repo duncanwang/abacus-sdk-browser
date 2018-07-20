@@ -1,6 +1,6 @@
 {
   "name": "@abacusprotocol/sdk-browser",
-  "version": "0.2.13",
+  "version": "0.2.14",
   "description": "Abacus Browser SDK",
   "main": "dist/abacus.cjs.js",
   "browser": "dist/abacus.umd.js",
