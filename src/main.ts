@@ -65,6 +65,8 @@ class BrowserSDK extends JavascriptSDK {
     const modal = document.getElementById(BrowserSDK.MODAL_ID);
     if (!modal || !modal.parentNode) return;
     modal.parentNode.removeChild(modal);
+    this._exists = false;
+    this._displaying = false;
     onClose();
   }
 
