@@ -5,6 +5,7 @@
   "main": "dist/abacus.cjs.js",
   "browser": "dist/abacus.umd.js",
   "module": "dist/abacus.esm.js",
+  "types": "dist/main.d.ts",
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
