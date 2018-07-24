@@ -18,7 +18,7 @@ class BrowserSDK extends JavascriptSDK {
   _portalURL: string;
   _displaying: boolean;
   _exists: boolean;
-  _authUser: string | null;
+  _authToken: string | null;
   _authUserId: string | null;
   baseURL: string;
 
@@ -50,7 +50,8 @@ class BrowserSDK extends JavascriptSDK {
     this._displaying = false;
     this._exists = false;
 
-    this._authUser = params.oauthToken || window.localStorage.abacusAccessToken;
+    this._authToken =
+      params.oauthToken || window.localStorage.abacusAccessToken;
     this._authUserId = window.localStorage.abacusUserId;
     this.baseURL = `${this._apiURL}/api/v1`;
   }
@@ -164,7 +165,7 @@ class BrowserSDK extends JavascriptSDK {
               })
           );
           window.localStorage.abacusAccessToken = access_token;
-          this._authUser = access_token;
+          this._authToken = access_token;
           window.localStorage.abacusUserId = user_id;
           this._authUserId = user_id;
           OPTS.onAuthorize({ accessToken: access_token });
@@ -189,7 +190,7 @@ class BrowserSDK extends JavascriptSDK {
    * deactivate the currently logged in user
    */
   deauthorize() {
-    this._authUser = null;
+    this._authToken = null;
     this._authUserId = null;
     window.localStorage.abacusAccessToken = null;
     window.localStorage.abacusUserId = null;
