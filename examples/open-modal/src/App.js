@@ -8,7 +8,6 @@ class App extends Component {
       apiURL: "https://api-sandbox.abacusprotocol.com",
       applicationId: "e8ea696f-20ed-43b3-84ac-68d372959e6a"
     });
-    console.log(this.abacus);
   }
   render() {
     return (
