@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import Abacus from '@abacusprotocol/client-sdk';
+import React, { Component } from "react";
+import Abacus from "@abacusprotocol/sdk-browser";
 
 class App extends Component {
   componentDidMount() {
     this.abacus = new Abacus({
-      portalURL: "http://localhost:3000",
-      apiURL: "https://api.abacusprotocol.com",
+      portalURL: "https://identity-sandbox.abacusprotocol.com",
+      apiURL: "https://api-sandbox.abacusprotocol.com",
       applicationId: "e8ea696f-20ed-43b3-84ac-68d372959e6a"
     });
-    console.log(this.abacus)
+    console.log(this.abacus);
   }
   render() {
     return (
