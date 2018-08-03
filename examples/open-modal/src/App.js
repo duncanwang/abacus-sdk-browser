@@ -27,10 +27,7 @@ class App extends Component {
         <button
           type="primary"
           onClick={async () => {
-            const result = await this.abacus.fetchVerificationStatus(
-              // @ts-ignore
-              window.web3.eth.defaultAccount
-            );
+            const result = await this.abacus.fetchUserVerifications();
             alert(JSON.stringify(result));
           }}
         >
