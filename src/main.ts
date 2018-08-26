@@ -45,8 +45,7 @@ class BrowserSDK extends JavascriptSDK {
       authToken: params.oauthToken
     });
 
-    this._portalURL =
-      params.portalURL || "https://identity-sandbox.abacusprotocol.com";
+    this._portalURL = params.portalURL || "https://identity.abacusprotocol.com";
     this._displaying = false;
     this._exists = false;
 
