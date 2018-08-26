@@ -211,7 +211,6 @@ class BrowserSDK extends JavascriptSDK {
       );
 
     return await this.fetchVerifications({
-      applicationId: this._applicationId,
       userId: this._authUserId
     });
   }
@@ -234,7 +233,6 @@ class BrowserSDK extends JavascriptSDK {
       );
 
     return await this.writeAnnotations({
-      applicationId: this._applicationId,
       entityId: toUserId(this._authUserId),
       annotations: data
     });
@@ -250,7 +248,6 @@ class BrowserSDK extends JavascriptSDK {
       );
 
     return this.fetchAnnotations({
-      applicationId: this._applicationId,
       entityId: toUserId(this._authUserId)
     });
   }
